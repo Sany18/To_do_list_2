@@ -52,7 +52,6 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "tttttttt_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
 
@@ -82,4 +81,20 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { host: "protected-taiga-81728.herokuapp.com" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      #smtp login:
+      user_name:     ENV["email"],
+      password:      ENV["e_pass"],
+      domain:        "heroku.com",
+      #smtp server:
+      address:       "smtp.gmail.com",
+      port:          "587",
+      authentication: :plain,
+      enable_starttls_auto: true
+  }
 end

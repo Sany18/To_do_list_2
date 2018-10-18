@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :tasks
+  root 'tasks#index'
+  delete '/task/delete_selected/:id' => 'custom#destroy_selected'
+  get '/task/status_switch/:id' => 'custom#status_switch'
 end

@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  theme: MyString
+  priority: 1
+  due_date: 
+  is_done?: 
+  default: 
+  user: 
+  index: 
+
+two:
+  title: MyString
+  theme: MyString
+  priority: 1
+  due_date: 
+  is_done?: 
+  default: 
+  user: 
+  index: 
