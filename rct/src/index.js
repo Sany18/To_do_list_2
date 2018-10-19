@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import './index.css';
-import ViewTasks from './components/ViewTasks';
+import ViewTasks from './components/view-tasks';
 
 function Main() {
 	return (

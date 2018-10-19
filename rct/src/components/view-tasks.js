@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-
-const API = 'http://localhost:3000';
+import routes from '../config/routes-helper';
+import buttons from './buttons';
 
 class Article extends Component {
 
@@ -12,7 +12,7 @@ class Article extends Component {
 	}
 
 	componentDidMount() {
-		fetch(API)
+		fetch(routes.root)
 		.then(response => response.json())
 		.then(data => this.setState({tasks: data, isLoading: true}))
     .catch(error => this.setState({ error }))
@@ -32,12 +32,10 @@ class Article extends Component {
 							<li key={i}>
 								<h3>{task.title}</h3>
 								<p>{task.theme}</p>
+								{buttons.deleteTask(task.id)}
 							</li>
 						)
 					}</ul>
-					<button onClick={this.handleClick}>
-						{this.state.isOpen ? 'close' : 'open'}
-					</button>
 				</div>
 			)
 		}
