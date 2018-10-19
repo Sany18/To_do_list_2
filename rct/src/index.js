@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import './index.css';
-import Article from './components/Article';
+import ViewTasks from './components/ViewTasks';
 
 function Main() {
 	return (
 		<div>
 			<h1>Task list</h1>
 			{/*<Article anyText="random props"/>*/}
-			<Article />
+			<ViewTasks />
 		</div>
 	)
 }
