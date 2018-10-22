@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import routes from '../config/routes-helper';
-import buttons from './buttons';
+import Buttons from './buttons';
 
 class Article extends Component {
 
@@ -32,7 +32,8 @@ class Article extends Component {
 							<li key={i}>
 								<h3>{task.title}</h3>
 								<p>{task.theme}</p>
-								{buttons.deleteTask(task.id)}
+								<Buttons type='deleteTask' params={task.id}/>
+								<Buttons type='editTask' params={task.id}/>
 							</li>
 						)
 					}</ul>

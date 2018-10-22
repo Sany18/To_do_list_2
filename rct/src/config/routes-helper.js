@@ -1,13 +1,15 @@
+const API = 'http://localhost:3000';
+
 let routes = {
-	root: 'http://localhost:3000',
-	tasksGet: '/tasks',
-	taskCreatePost: '/tasks',
-	taskShowGet: '/tasks/',
-	taskUpdatePut: '/tasks/',
-	taskUpdatePatch: '/tasks/',
-	taskDelete: '/tasks/',
-	deleteSelectedDelete: '/task/delete_selected/',
-	statusSwitchGet: '/task/status_switch/'
+	root: API,
+	tasksGet: API + '/tasks',
+	taskCreatePost: API + '/tasks',
+	taskShowGet: API + '/tasks/',
+	taskUpdatePut: API + '/tasks/',
+	taskUpdatePatch: API + '/tasks/',
+	taskDelete: API + '/tasks/',
+	deleteSelected: API + '/task/delete_selected/',
+	statusSwitchGet: API + '/task/status_switch/'
 }
 
 export default routes;
