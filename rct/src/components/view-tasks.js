@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import routes from '../config/routes-helper';
 import Buttons from './buttons';
+import { Button } from 'reactstrap';
 
 class Article extends Component {
-
 	state = {
 		isLoading: false,
 		error: null,		
@@ -33,7 +33,7 @@ class Article extends Component {
 								<h3>{task.title}</h3>
 								<p>{task.theme}</p>
 								<Buttons type='deleteTask' params={task.id}/>
-								<Buttons type='editTask' params={task.id}/>
+								<Buttons type='editTask' params={i}/>
 							</li>
 						)
 					}</ul>

@@ -1,5 +1,7 @@
 import routes from '../config/routes-helper';
+import Task from '../components/task-form';
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 class Buttons extends Component {
 	state = {
@@ -17,42 +19,68 @@ class Buttons extends Component {
 		// .catch(error => this.setState({ error }))
 	}
 
+	openNewTaskModal = () => {
+		this.openTaskInModal(false);
+	}
+
+	openTaskInModal = (taskKey) => {
+		this.hideModal();
+		document.getElementById("modal").hidden	= false;
+		let container = document.createElement("div");
+		document.getElementById("modal").appendChild(container);
+		ReactDOM.render(<Task taskKey={taskKey} />, container);
+	}
+
+	hideModal = () => {
+		let elem = document.getElementById("modal");
+		if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
+		elem.innerHTML = ''; 
+		elem.hidden	= true;
+	}
+
+	saveTask = (r) => {
+		this.ajaxTo(routes.taskCreatePost + JSON.stringify(r));
+		this.hideModal();
+	}
+
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
 				return(
 					<button onClick={({adrs = routes.taskDelete + params}) => this.ajaxTo(adrs)}>Delete task</button>
 				)
-			break;
 			case 'deleteTasks':
 				return(
 					<button onClick={({adrs = routes.deleteSelected + params}) => console.log(adrs)}>Delete selected</button>
 				)
-			break;
 			case 'editTask':
 				return(
-					<button onClick={({adrs = routes.taskUpdatePut + params}) => console.log(adrs)}>Edit</button>
+					<button onClick={({taskKey = params}) => this.openTaskInModal(taskKey)}>Edit</button>
 				)
-			break;
 			case 'createTask':
+			case 'newTask':
 				return(
-					<button onClick={({adrs = routes.taskCreatePost}) => console.log(adrs)}>New task</button>
+					<button onClick={() => this.openNewTaskModal()}>New task</button>
 				)
-			break;
+			case 'closeTask':
+				return(
+					<button onClick={() => this.hideModal()}>Close</button>
+				)
+			case 'saveTask':
+				return(
+					<button onClick={({r = this.props.val}) => this.saveTask(r)}>Save</button>
+				)
 			case 'signUp':
 				return(
 					<button onClick={() => console.log('coming soon')}>Sign up</button>
 				)
-			break;
 			case 'signIn':
 				return(
-					<button onClick={() => console.log('coming soon')}>Sign up</button>
+					<button onClick={() => console.log('coming soon')}>Sign in</button>
 				)
-			break;
 			default:
 				document.getElementById('notice').innerHTML = 'Button is undefined'
 				return(null)
-			break;
 		}
 	}
 
