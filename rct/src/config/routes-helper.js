@@ -9,7 +9,8 @@ let routes = {
 	taskUpdatePatch: API + '/tasks/',
 	taskDelete: API + '/tasks/',
 	deleteSelected: API + '/task/delete_selected/',
-	statusSwitchGet: API + '/task/status_switch/'
+	statusSwitchGet: API + '/task/status_switch/',
+	oauthTokenPOST: API +  '/oauth/token/'
 }
 
 export default routes;

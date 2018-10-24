@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :doorkeeper_authorize!
+  # before_action :doorkeeper_authorize!, except: [:index]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks
@@ -38,7 +39,9 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    @task.destroy
+    if @task.destroy
+      render json: { "error" => 'Task #{@task.title} was deleted' }.to_json
+    end
   end
 
   private

@@ -1,14 +1,12 @@
 include Faker
 
 if Rails.env != "production"
-  # User.create(
-  #   first_name: Name.first_name,
-  #   last_name: Name.last_name,
-  #   email: "test@test.com",
-  #   password: "asdqwe123",
-  #   password_confirmation: "asdqwe123",
-  #   confirmed_at: Date.today
-  # )
+  User.create!(
+    first_name: 'D',
+    last_name: 'F',
+    email: "w@w",
+    password: "asdasd"
+  )
 
   16.times do
     Task.create(

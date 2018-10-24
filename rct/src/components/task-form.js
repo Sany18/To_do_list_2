@@ -23,8 +23,9 @@ class Task extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.taskKey.toString()) {
-			fetch(routes.root)
+		if (this.emptyTaskKey()) {
+		let myInit = 'access_token=' + localStorage.getItem('access_token')
+		fetch(routes.tasksGet + '?' + myInit)
 			.then(response => response.json())
 			.then(data => this.setState({tasks: data, isLoading: true}))
 			.then(data => {
@@ -37,6 +38,10 @@ class Task extends Component {
 		}
 	}
 
+	emptyTaskKey = () => {
+		return !isNaN(parseFloat(this.props.taskKey)) && isFinite(this.props.taskKey);
+	}
+
 	handleChange(event) {
 		let val = event.target.value
 		this.setState({ value: { ...this.state.value, [event.target.name]:  val} });
@@ -45,16 +50,16 @@ class Task extends Component {
 	render() {
 		let task = this.state.tasks[this.state.taskKey] || this.state.value
 		let buttonDeleteTask = task.id ? <Buttons type='deleteTask' params={task.id}/> : ''
-		if (this.state.isLoading) {
+		if (this.state.isLoading || !this.emptyTaskKey()) {
 			return(
 				<div>
-				<label>Theme</label>
-				<input defaultValue={task.title} name="title" onChange={this.handleChange}/> 
-				<label>Task</label>
-				<textarea defaultValue={task.theme} name="theme" onChange={this.handleChange}/>
-				{buttonDeleteTask}
-				<Buttons type='closeTask'/>
-				<Buttons type='saveTask' val={this.state.value}/>
+					<label>Theme</label>
+					<input defaultValue={task.title} name="title" onChange={this.handleChange}/> 
+					<label>Task</label>
+					<textarea defaultValue={task.theme} name="theme" onChange={this.handleChange}/>
+					{buttonDeleteTask}
+					<Buttons type='closeTask'/>
+					<Buttons type='saveTask' params={this.state.value}/>
 				</div>
 				)
 		}

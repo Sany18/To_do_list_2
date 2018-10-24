@@ -12,7 +12,8 @@ class Article extends Component {
 	}
 
 	componentDidMount() {
-		fetch(routes.root)
+		let myInit = 'access_token=' + localStorage.getItem('access_token')
+		fetch(routes.tasksGet + '?' + myInit)
 		.then(response => response.json())
 		.then(data => this.setState({tasks: data, isLoading: true}))
     .catch(error => this.setState({ error }))
@@ -25,7 +26,7 @@ class Article extends Component {
 	}
 
 	render() {
-		if (this.state.isLoading) {
+		if (this.state.isLoading && this.state.tasks[0]) {
 			return(
 				<div>
 					<ul>{this.state.tasks.map((task, i) =>

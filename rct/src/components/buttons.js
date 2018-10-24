@@ -5,18 +5,38 @@ import ReactDOM from 'react-dom';
 
 class Buttons extends Component {
 	state = {
-		isLoading: true,
+		isLoading: false,
 		error: null,
 		resp: [],
 		type: null
 	}
 
-	ajaxTo = (address) => {
-		console.log(address)
-		// fetch(address)
-		// .then(response => response.json())
-		// .then(data => this.setState({resp: data, isLoading: true}))
-		// .catch(error => this.setState({ error }))
+	ajaxTo = (address, body, method) => {
+		let myInit = { method: method,
+									 headers: { 'Content-Type': 'application/json' },
+									 body: this.getTokensBody(body) }
+
+		console.log(myInit)
+
+		fetch(address, myInit)
+		.then(response => response.json())
+		.then(data => {
+			if (data.access_token) localStorage.setItem('access_token', data.access_token);
+			if (data.error) this.setState({ error: data.error })
+			console.log(data.error)
+		})
+		.catch(error => this.setState({ error }))
+	}
+
+	getTokensBody = (body) => {
+		if (body.grant_type === 'password') {
+			return JSON.stringify(body)
+		} else if (localStorage.getItem('access_token')) {
+			body.access_token = localStorage.getItem('access_token')
+			return JSON.stringify(body)
+		} else {
+			return JSON.stringify({'access_token': localStorage.getItem('access_token')})
+		}
 	}
 
 	openNewTaskModal = () => {
@@ -33,29 +53,35 @@ class Buttons extends Component {
 
 	hideModal = () => {
 		let elem = document.getElementById("modal");
-		if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
+		// Выкидывает ошибку при сейве: утечка памяти. Надо исправить.
+		// if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
 		elem.innerHTML = ''; 
 		elem.hidden	= true;
 	}
 
-	saveTask = (r) => {
-		this.ajaxTo(routes.taskCreatePost + JSON.stringify(r));
+	saveTask = (body) => {
+		this.ajaxTo(routes.taskCreatePost, body, 'POST');
 		this.hideModal();
+	}
+
+	login = (body) => {
+		body.grant_type = 'password';
+		this.ajaxTo(routes.oauthTokenPOST, body, 'POST');
 	}
 
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
 				return(
-					<button onClick={({adrs = routes.taskDelete + params}) => this.ajaxTo(adrs)}>Delete task</button>
+					<button onClick={() => this.ajaxTo(routes.taskDelete + params, '', 'DELETE')}>Delete task</button>
 				)
 			case 'deleteTasks':
 				return(
-					<button onClick={({adrs = routes.deleteSelected + params}) => console.log(adrs)}>Delete selected</button>
+					<button onClick={() => console.log(routes.deleteSelected + params)}>Delete selected</button>
 				)
 			case 'editTask':
 				return(
-					<button onClick={({taskKey = params}) => this.openTaskInModal(taskKey)}>Edit</button>
+					<button onClick={() => this.openTaskInModal(params)}>Edit</button>
 				)
 			case 'createTask':
 			case 'newTask':
@@ -68,7 +94,7 @@ class Buttons extends Component {
 				)
 			case 'saveTask':
 				return(
-					<button onClick={({r = this.props.val}) => this.saveTask(r)}>Save</button>
+					<button onClick={() => this.saveTask(params)}>Save</button>
 				)
 			case 'signUp':
 				return(
@@ -76,7 +102,11 @@ class Buttons extends Component {
 				)
 			case 'signIn':
 				return(
-					<button onClick={() => console.log('coming soon')}>Sign in</button>
+					<button onClick={() => this.login(params)}>Sign in</button>
+				)
+			case 'logOut':
+				return(
+					<button onClick={() => localStorage.removeItem('access_token')}>Log out</button>
 				)
 			default:
 				document.getElementById('notice').innerHTML = 'Button is undefined'
@@ -85,23 +115,14 @@ class Buttons extends Component {
 	}
 
 	render() {
-		if (this.state.isLoading) {
-			return(this.getButton(this.props.type, this.props.params))
-		}
+
 		if (this.state.error) {
-			document.getElementById('notice').innerHTML = this.state.error.toString()
-			return(null)
+			document.getElementById('notice').innerHTML = this.state.error.toString();
+			return(this.getButton(this.props.type, this.props.params))
+		} else {
+			return(this.getButton(this.props.type, this.props.params))
 		}
 	}
 }
 
 export default Buttons;
-
-
-
-// CreateTask
-// EditTask
-// DeleteTask
-// DeleteTasks
-// SingUp
-// SingIn
