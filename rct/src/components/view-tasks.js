@@ -6,12 +6,27 @@ import { Button } from 'reactstrap';
 class Article extends Component {
 	state = {
 		isLoading: false,
-		error: null,		
+		error: null,
 		isOpen: false,
-		tasks: []
+		tasks: [],
+		taps: 0
+	}
+
+	componentDidUpdate() {
+		if (this.state.taps !== +localStorage.getItem('taps')) {
+			this.getTasks()
+			console.log('update!')			
+			// console.log(this.state.taps, +localStorage.getItem('taps'))
+			this.setState({taps: +localStorage.getItem('taps')})
+		}
 	}
 
 	componentDidMount() {
+		this.getTasks();
+		this.setState({taps: +localStorage.getItem('taps')})
+	}
+
+	getTasks = () => {
 		let myInit = 'access_token=' + localStorage.getItem('access_token')
 		fetch(routes.tasksGet + '?' + myInit)
 		.then(response => response.json())
@@ -26,7 +41,7 @@ class Article extends Component {
 	}
 
 	render() {
-		if (this.state.isLoading && this.state.tasks[0]) {
+		if (this.state.isLoading && this.state.tasks.length) {
 			return(
 				<div>
 					<ul>{this.state.tasks.map((task, i) =>
@@ -38,6 +53,13 @@ class Article extends Component {
 							</li>
 						)
 					}</ul>
+				</div>
+			)
+		} 
+		if (this.state.isLoading && !this.state.tasks.length) {
+			return(
+				<div>
+					<p>Creare you first task</p>
 				</div>
 			)
 		}

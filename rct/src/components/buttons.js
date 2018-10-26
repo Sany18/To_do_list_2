@@ -16,14 +16,15 @@ class Buttons extends Component {
 									 headers: { 'Content-Type': 'application/json' },
 									 body: this.getTokensBody(body) }
 
-		console.log(myInit)
+		console.log('request: ', myInit)
 
 		fetch(address, myInit)
 		.then(response => response.json())
 		.then(data => {
 			if (data.access_token) localStorage.setItem('access_token', data.access_token);
 			if (data.error) this.setState({ error: data.error })
-			console.log(data.error)
+			console.log('response: ', data)
+		  this.refreshTasks();
 		})
 		.catch(error => this.setState({ error }))
 	}
@@ -54,13 +55,13 @@ class Buttons extends Component {
 	hideModal = () => {
 		let elem = document.getElementById("modal");
 		// Выкидывает ошибку при сейве: утечка памяти. Надо исправить.
-		// if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
+		if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
 		elem.innerHTML = ''; 
 		elem.hidden	= true;
 	}
 
 	saveTask = (body) => {
-		this.ajaxTo(routes.taskCreatePost, body, 'POST');
+		this.ajaxTo(routes.taskCreatePost, {'task': body}, 'POST');
 		this.hideModal();
 	}
 
@@ -69,11 +70,15 @@ class Buttons extends Component {
 		this.ajaxTo(routes.oauthTokenPOST, body, 'POST');
 	}
 
+	refreshTasks = () => {
+		localStorage.setItem('taps', +localStorage.getItem('taps') + 1)
+	}
+
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
 				return(
-					<button onClick={() => this.ajaxTo(routes.taskDelete + params, '', 'DELETE')}>Delete task</button>
+					<button onClick={() => this.ajaxTo(routes.taskDelete + params, {}, 'DELETE')}>Delete task</button>
 				)
 			case 'deleteTasks':
 				return(
@@ -115,9 +120,8 @@ class Buttons extends Component {
 	}
 
 	render() {
-
 		if (this.state.error) {
-			document.getElementById('notice').innerHTML = this.state.error.toString();
+			document.getElementById('notice').innerHTML = this.state.error.toString()
 			return(this.getButton(this.props.type, this.props.params))
 		} else {
 			return(this.getButton(this.props.type, this.props.params))

@@ -1,30 +1,26 @@
 class TasksController < ApplicationController
   before_action :doorkeeper_authorize!
-  # before_action :doorkeeper_authorize!, except: [:index]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks
   def index
-    # @tasks = current_user.tasks
-    @tasks = Task.all
-
-    render json: @tasks
+    tasks = current_user.tasks
+    render json: tasks
   end
 
   # GET /tasks/1
   def show
-    render json: @task
+    render json: task
   end
 
   # POST /tasks
   def create
-    # @task = current_user.tasks.new(task_params)
-    @task = Task.new(task_params)
+    task = current_user.tasks.new(task_params)
 
-    if @task.save
-      render json: @task, status: :created, location: @task
+    if task.save
+      render json: { 'error' => 'Task created' }.to_json
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: { 'error' => 'Unable to save!' }.to_json
     end
   end
 
@@ -40,14 +36,14 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   def destroy
     if @task.destroy
-      render json: { "error" => 'Task #{@task.title} was deleted' }.to_json
+      render json: { 'error' => 'Task was deleted' }.to_json
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
-      @task = Task.find(params[:id])
+      @task = current_user.tasks.find_by(id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
