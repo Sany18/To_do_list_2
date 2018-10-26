@@ -27,9 +27,9 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     if @task.update(task_params)
-      render json: @task
+      render json: { 'error' => 'Task updatet' }.to_json
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: { 'error' => 'Unable to update!' }.to_json
     end
   end
 

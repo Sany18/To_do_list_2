@@ -65,6 +65,11 @@ class Buttons extends Component {
 		this.hideModal();
 	}
 
+	updateTask = (body) => {
+		this.ajaxTo(routes.taskUpdatePut + body.id, {'task': body}, 'PUT');
+		this.hideModal();
+	}
+
 	login = (body) => {
 		body.grant_type = 'password';
 		this.ajaxTo(routes.oauthTokenPOST, body, 'POST');
@@ -74,11 +79,16 @@ class Buttons extends Component {
 		localStorage.setItem('taps', +localStorage.getItem('taps') + 1)
 	}
 
+	deleteTask = (params) => {
+		this.ajaxTo(routes.taskDelete + params, {}, 'DELETE');
+		this.hideModal();
+	}
+
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
 				return(
-					<button onClick={() => this.ajaxTo(routes.taskDelete + params, {}, 'DELETE')}>Delete task</button>
+					<button onClick={() => this.deleteTask(params)}>Delete task</button>
 				)
 			case 'deleteTasks':
 				return(
@@ -100,6 +110,10 @@ class Buttons extends Component {
 			case 'saveTask':
 				return(
 					<button onClick={() => this.saveTask(params)}>Save</button>
+				)
+			case 'updateTask':
+				return(
+					<button onClick={() => this.updateTask(params)}>Update</button>
 				)
 			case 'signUp':
 				return(

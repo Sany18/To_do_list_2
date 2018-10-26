@@ -49,7 +49,6 @@ class Task extends Component {
 
 	render() {
 		let task = this.state.tasks[this.state.taskKey] || this.state.value
-		let buttonDeleteTask = task.id ? <Buttons type='deleteTask' params={task.id}/> : ''
 		if (this.state.isLoading || !this.emptyTaskKey()) {
 			return(
 				<div>
@@ -57,9 +56,11 @@ class Task extends Component {
 					<input defaultValue={task.title} name="title" onChange={this.handleChange}/> 
 					<label>Task</label>
 					<textarea defaultValue={task.theme} name="theme" onChange={this.handleChange}/>
-					{buttonDeleteTask}
+					{task.id ? <Buttons type='deleteTask' params={task.id}/> : ''}
 					<Buttons type='closeTask'/>
-					<Buttons type='saveTask' params={this.state.value}/>
+					{+this.state.value.id ?
+					<Buttons type='updateTask' params={this.state.value}/> :
+					<Buttons type='saveTask' params={this.state.value}/>}
 				</div>
 				)
 		}
