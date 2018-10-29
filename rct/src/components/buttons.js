@@ -2,6 +2,8 @@ import routes from '../config/routes-helper';
 import Task from '../components/task-form';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import Event from '../components/event';
 
 class Buttons extends Component {
 	state = {
@@ -22,8 +24,13 @@ class Buttons extends Component {
 		.then(response => response.json())
 		.then(data => {
 			if (data.access_token) localStorage.setItem('access_token', data.access_token);
-			if (data.error) this.setState({ error: data.error })
+			// удалить если все будет работать два дня
+			// if (data.error) this.setState({ error: data.error })
+
+			ReactDOM.render(<Event val={data.error} />, document.getElementById("notice"));
+
 			console.log('response: ', data)
+
 		  this.refreshTasks();
 		})
 		.catch(error => this.setState({ error }))
@@ -53,11 +60,13 @@ class Buttons extends Component {
 	}
 
 	hideModal = () => {
-		let elem = document.getElementById("modal");
-		// Выкидывает ошибку при сейве: утечка памяти. Надо исправить.
-		if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
-		elem.innerHTML = ''; 
-		elem.hidden	= true;
+		if (!document.getElementById("modal").hidden) {
+			let elem = document.getElementById("modal");
+			// Выкидывает ошибку при сейве: утечка памяти. Надо исправить.
+			if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
+			elem.innerHTML = ''; 
+			elem.hidden	= true;
+		}
 	}
 
 	saveTask = (body) => {
@@ -88,44 +97,48 @@ class Buttons extends Component {
 		switch (type) {
 			case 'deleteTask':
 				return(
-					<button onClick={() => this.deleteTask(params)}>Delete task</button>
+					<Button onClick={() => this.deleteTask(params)}>Delete task</Button>
+				)
+			case 'deleteTask2':
+				return(
+					<Button onClick={() => this.deleteTask(params)}>&#215;</Button>
 				)
 			case 'deleteTasks':
 				return(
-					<button onClick={() => console.log(routes.deleteSelected + params)}>Delete selected</button>
+					<Button onClick={() => console.log(routes.deleteSelected + params)}>Delete selected</Button>
 				)
 			case 'editTask':
 				return(
-					<button onClick={() => this.openTaskInModal(params)}>Edit</button>
+					<Button onClick={() => this.openTaskInModal(params)}>Edit</Button>
 				)
 			case 'createTask':
 			case 'newTask':
 				return(
-					<button onClick={() => this.openNewTaskModal()}>New task</button>
+					<Button bsStyle="default" onClick={() => this.openNewTaskModal()}>New task</Button>
 				)
 			case 'closeTask':
 				return(
-					<button onClick={() => this.hideModal()}>Close</button>
+					<Button onClick={() => this.hideModal()}>Close</Button>
 				)
 			case 'saveTask':
 				return(
-					<button onClick={() => this.saveTask(params)}>Save</button>
+					<Button onClick={() => this.saveTask(params)}>Save</Button>
 				)
 			case 'updateTask':
 				return(
-					<button onClick={() => this.updateTask(params)}>Update</button>
+					<Button onClick={() => this.updateTask(params)}>Update</Button>
 				)
 			case 'signUp':
 				return(
-					<button onClick={() => console.log('coming soon')}>Sign up</button>
+					<Button onClick={() => console.log('coming soon')}>Sign up</Button>
 				)
 			case 'signIn':
 				return(
-					<button onClick={() => this.login(params)}>Sign in</button>
+					<Button onClick={() => this.login(params)}>Sign in</Button>
 				)
 			case 'logOut':
 				return(
-					<button onClick={() => localStorage.removeItem('access_token')}>Log out</button>
+					<Button onClick={() => localStorage.removeItem('access_token')}>Log out</Button>
 				)
 			default:
 				document.getElementById('notice').innerHTML = 'Button is undefined'
@@ -133,14 +146,7 @@ class Buttons extends Component {
 		}
 	}
 
-	render() {
-		if (this.state.error) {
-			document.getElementById('notice').innerHTML = this.state.error.toString()
-			return(this.getButton(this.props.type, this.props.params))
-		} else {
-			return(this.getButton(this.props.type, this.props.params))
-		}
-	}
+	render() {return(<ButtonGroup bsSize="small">{this.getButton(this.props.type, this.props.params)}</ButtonGroup>)}
 }
 
 export default Buttons;

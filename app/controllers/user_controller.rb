@@ -9,16 +9,11 @@ class UserController < ApplicationController
 		end
 	end
 
-	# def create
-	# 	@user = User.new(params[:user])
-	# 	@user.password = params[:password]
-	# 	@user.save!
-	# end
-
 	def login
 		@user = User.find_by_email(params[:email])
 		if @user.password == params[:password]
 			give_token
+			render json: { 'error' => 'Hello #{current_user.first_name}' }.to_json
 		else
 			redirect_to home_url
 		end

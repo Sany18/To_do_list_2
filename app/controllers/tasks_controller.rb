@@ -27,7 +27,7 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     if @task.update(task_params)
-      render json: { 'error' => 'Task updatet' }.to_json
+      render json: { 'error' => 'Task updated' }.to_json
     else
       render json: { 'error' => 'Unable to update!' }.to_json
     end

@@ -1,6 +1,5 @@
 class CustomController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :doorkeeper_authorize!
 
 # DELETE /task/delete_selected/:id
   def destroy_selected
@@ -9,11 +8,9 @@ class CustomController < ApplicationController
 
   #GET /task/status_switch/:id
   def status_switch
-    @task = current_user.tasks.find_by(id: params[:id])
-    @task.update(is_done: !@task.is_done)
+    task = current_user.tasks.find_by(id: params[:id])
+    task.update(is_done: !task.is_done)
 
-    respond_to do |format|
-      format.html {redirect_to "/", notice: "Changed."}
-      format.json {head :no_content}
-    end
+    render json: { 'error' => 'Chenged' }.to_json
   end
+end
