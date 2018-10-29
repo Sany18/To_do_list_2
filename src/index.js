@@ -5,7 +5,6 @@ import Buttons from './components/buttons';
 import Clock from './components/clock';
 import Login from './components/login';
 import { ButtonGroup } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 {
