@@ -15,9 +15,9 @@ class TasksController < ApplicationController
 
   # POST /tasks
   def create
-    task = current_user.tasks.new(task_params)
+    @task = current_user.tasks.new(task_params)
 
-    if task.save
+    if @task.save
       render json: { 'error' => 'Task created' }.to_json
     else
       render json: { 'error' => 'Unable to save!' }.to_json
