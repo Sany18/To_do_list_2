@@ -1,4 +1,5 @@
-const API = 'http://localhost:3000';
+// const API = 'http://localhost:3000'; //"proxy": in package,json
+const API = '';
 
 let routes = {
 	root: API,

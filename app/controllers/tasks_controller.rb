@@ -4,13 +4,13 @@ class TasksController < ApplicationController
 
   # GET /tasks
   def index
-    tasks = current_user.tasks
-    render json: tasks
+    @tasks = current_user.tasks
+    render json: @tasks
   end
 
   # GET /tasks/1
   def show
-    render json: task
+    render json: @task
   end
 
   # POST /tasks
