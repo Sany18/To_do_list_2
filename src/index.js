@@ -6,6 +6,7 @@ import Clock from './components/clock';
 import Login from './components/login';
 import { ButtonGroup } from 'react-bootstrap';
 import './index.css';
+import '../public/index.html';
 
 {
 	document.getElementById("modal").hidden	= true

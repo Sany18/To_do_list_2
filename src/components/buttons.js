@@ -24,9 +24,6 @@ class Buttons extends Component {
 		.then(response => response.json())
 		.then(data => {
 			if (data.access_token) localStorage.setItem('access_token', data.access_token);
-			// удалить если все будет работать два дня
-			// if (data.error) this.setState({ error: data.error })
-
 			ReactDOM.render(<Event val={data.error} />, document.getElementById("notice"));
 
 			console.log('response: ', data)
