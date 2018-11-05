@@ -1,5 +1,5 @@
-describe('111111', () => {
-  it('22222', () => {
+describe('Jest', () => {
+  it('must be work', () => {
     expect(2 + 2).toBe(4);
   });
 });

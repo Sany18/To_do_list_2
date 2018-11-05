@@ -3,7 +3,7 @@
 
 var Globals = {
 	API: '',
-	ENV: 'prod'
+	ENV: 'test'
 }
 
 export default Globals;

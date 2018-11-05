@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Index from '../src/index.js';
+import SignUp from '../../src/components/registration.js';
 
 Enzyme.configure({ adapter: new Adapter() })
 
-describe('Index.js', () => {
+describe('Registration', () => {
   it('should render in "debug" mode', () => {
-    let component = document.getElementsByTagName('*').length;
-    expect(component).toBeGreaterThan(0)
+    let component = mount(<SignUp />);  
+    expect(component).toBeDefined();
   });
 });

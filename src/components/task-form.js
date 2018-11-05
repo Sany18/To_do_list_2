@@ -78,7 +78,7 @@ class Task extends Component {
 						<Buttons type='saveTask' params={this.state.value}/>}
 					</ButtonGroup>
 				</div>
-				)
+			)
 		}
 		if (this.state.error) {
 			document.getElementById('notice').innerHTML = this.state.error.toString()

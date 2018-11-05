@@ -15,52 +15,52 @@ class Main extends Component {
 	}
 
 	componentDidMount() {
-		document.getElementById("modal").hidden = true
+		if (document.getElementById("modal")) {document.getElementById("modal").hidden = true}
 		var timer = setInterval(this.setToken, 500);
 		this.setState({timer: timer});
 		if (globs.ENV === 'test') console.log('You are in a test environment')
 	}
 
-setToken = () => {
-	this.setState({token: localStorage.access_token})
-}
+	setToken = () => {
+		this.setState({token: localStorage.access_token})
+	}
 
-render() {
-	if (this.state.token) {
-		return (
-			<div className="mb-2 ml-2">
-			<h1 id='site_name'>Task list</h1> <Clock />
-			<div className="mb-2">
-			<ButtonGroup>
-			<Buttons type='createTask'/>
-			<Buttons type='deleteTasks'/>
-			<Buttons type='logOut'/>
-			</ButtonGroup>
-			</div>
-			<ViewTasks />
-			</div>
-			)
-	} else {
-		return(
-			<div>
-				<h1 id='site_name'>Task list</h1> <Clock />
-				<div className='row p-2'>
-					<div className="col-5">
-						<h3>Sing in</h3>
-						<Login />
+	render() {
+		if (this.state.token) {
+			return (
+				<div className="mb-2 ml-2">
+					<h1 id='site_name'>Task list</h1> <Clock />
+					<div className="mb-2">
+						<ButtonGroup>
+							<Buttons type='createTask'/>
+							<Buttons type='deleteTasks'/>
+							<Buttons type='logOut'/>
+						</ButtonGroup>
 					</div>
-					<div className="col-2 my-auto display-4 text-center">
-						OR
-					</div>
-					<div className="col-5">
-						<h3>Registration</h3>
-						<Registration />
+					<ViewTasks />
+				</div>
+				)
+		} else {
+			return(
+				<div>
+					<h1 id='site_name'>Task list</h1> <Clock />
+					<div className='row p-2'>
+						<div className="col-5">
+							<h3>Sing in</h3>
+							<Login />
+						</div>
+						<div className="col-2 my-auto display-4 text-center">
+							OR
+						</div>
+						<div className="col-5">
+							<h3>Registration</h3>
+							<Registration />
+						</div>
 					</div>
 				</div>
-			</div>
 			)
-	}
-}		
+		}
+	}		
 }
 
 export default Main;

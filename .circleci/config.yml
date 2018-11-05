@@ -48,6 +48,16 @@ jobs:
           mkdir /tmp/test-results
           TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
           bundle exec rspec
+
+    - run:
+        name: Unit tests with coverage
+        command: |
+        ./cc-test-reporter before-build
+        npm run cov
+        ./cc-test-reporter after-build --exit-code $?
+        environment:
+        JEST_JUNIT_OUTPUT: "coverage/junit/js-test-results.xml"
+
     # collect reports
     # heh
     - store_test_results:

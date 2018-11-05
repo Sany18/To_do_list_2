@@ -117,11 +117,11 @@ class Buttons extends Component {
 			case 'createTask':
 			case 'newTask':
 				return(
-					<Button bsStyle="default" onClick={() => this.openNewTaskModal()}>New task</Button>
+					<Button id='newTask' bsStyle="default" onClick={() => this.openNewTaskModal()}>New task</Button>
 				)
 			case 'closeTask':
 				return(
-					<Button onClick={() => this.hideModal()}>Close</Button>
+					<Button id='closeTask' onClick={() => this.hideModal()}>Close</Button>
 				)
 			case 'saveTask':
 				return(

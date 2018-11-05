@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import routes from '../config/routes-helper';
+import globs from '../config/global-variables';
 import Buttons from './buttons';
 import { ButtonGroup } from 'react-bootstrap';
 
@@ -15,7 +16,7 @@ class Article extends Component {
 	componentDidUpdate() {
 		if (this.state.taps !== +localStorage.getItem('taps')) {
 			this.getTasks()
-			console.log('update!')
+			if (globs.ENV === 'test') {console.log('update!')}
 			this.setState({taps: +localStorage.getItem('taps')})
 		}
 	}
@@ -51,9 +52,9 @@ class Article extends Component {
 	render() {
 		if (this.state.isLoading && this.state.tasks.length) {
 			return(
-				<div>
+				<div id='tasks'>
 				{this.state.tasks.map((task, i) =>
-					<ul className="list-group" key={i}>
+					<ul className="list-group task" key={i}>
 						<li className="list-group-item list-group-item-success mr-2">
 							<div className="float-left">
 								<b>{task.title}</b><br/>

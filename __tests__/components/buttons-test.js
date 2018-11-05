@@ -8,7 +8,11 @@ Enzyme.configure({ adapter: new Adapter() })
 
 describe('Buttons', () => {
   it('should render in "debug" mode', () => {
-    let component = mount(<Buttons type='newTask' />);  
+    let component = mount(<Buttons type='deleteTask'/>);
     expect(component).toBeDefined();
+  });
+  it('type newTask should render "New task" button', () => {
+    let component = mount(<Buttons type='newTask' />);
+    expect(component.find('#newTask')).toBeDefined();
   });
 });
