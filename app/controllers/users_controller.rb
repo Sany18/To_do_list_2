@@ -1,4 +1,4 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 	def create
 		if params[:password] != params[:confirm_password]
 			render json: { 'error' => 'Passwords do not match' }.to_json
@@ -19,7 +19,6 @@ class UserController < ApplicationController
 		if @user.save
 			render json: { 'error' => 'Successful registration' }.to_json
 		else
-			# render json: { 'error' => 'Not successful' }.to_json
 			render json: { 'error' => 'Not registrated. Check the data' }.to_json
 		end
 	end

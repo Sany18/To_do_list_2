@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 	root 'tasks#index'
 	delete '/tasks/delete_selected/:id' => 'custom#destroy_selected'
 	get '/tasks/status_switch/:id' => 'custom#status_switch'
-	post '/user/create/' => 'user#create'
+	post '/user/create/' => 'users#create'
 end
