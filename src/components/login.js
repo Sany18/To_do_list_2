@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Buttons from './buttons';
-import { Form, FormGroup, ControlLabel, FormControl, Jumbotron } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 class Login extends Component {
 	constructor(props) {
@@ -27,20 +27,17 @@ class Login extends Component {
 		if (this.state.isLoading) {
 			return(
 				<div>
-				<Jumbotron>
 					<Form>
-						<FormGroup controlId="formInlineName">
+						<FormGroup controlId="formInlineMail2">
 							<ControlLabel>Email</ControlLabel>
 							<FormControl bsSize="small" type="text" name="email" placeholder="email" onChange={this.handleChange}/>
 						</FormGroup>
-						<FormGroup controlId="formInlineEmail">
+						<FormGroup controlId="formInlinePass2">
 							<ControlLabel>Password</ControlLabel>
 							<FormControl bsSize="small" name="password" type='password' placeholder="password" onChange={this.handleChange}/>
 						</FormGroup>
-						<Buttons type='signIn' params={this.state.value}/>				
-						<Buttons type='signUp'/>
+						<Buttons type='signIn' params={this.state.value}/>
 					</Form>
-					</Jumbotron>
 				</div>
 			)
 		}

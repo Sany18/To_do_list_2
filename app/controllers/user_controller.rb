@@ -1,11 +1,26 @@
 class UserController < ApplicationController
 	def create
-		@user = User.find_by(email: params[:email])
-		if @user && @user.authenticate(params[:password])
-			session[:user_id] = @user.id
-			render json: @user
+		if params[:password] != params[:confirm_password]
+			render json: { 'error' => 'Passwords do not match' }.to_json
+			return
+		end
+		if User.find_by(email: params[:email])
+			render json: { 'error' => 'Email is already registered' }.to_json
+			return
+		end
+
+		@user = User.new do |u|
+			u.email = params[:email]
+			u.password = params[:password]
+			u.first_name = params[:first_name]
+			u.last_name = params[:last_name]
+		end
+
+		if @user.save
+			render json: { 'error' => 'Successful registration' }.to_json
 		else
-			render json: @user.errors, status: :unprocessable_entity
+			# render json: { 'error' => 'Not successful' }.to_json
+			render json: { 'error' => 'Not registrated. Check the data' }.to_json
 		end
 	end
 

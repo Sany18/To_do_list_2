@@ -1,4 +1,5 @@
 import routes from '../config/routes-helper';
+import globs from '../config/global-variables';
 import Task from '../components/task-form';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
@@ -18,15 +19,16 @@ class Buttons extends Component {
 									 headers: { 'Content-Type': 'application/json' },
 									 body: this.getTokensBody(body) }
 
-		console.log('request: ', myInit)
+		if (globs.ENV === 'test') {console.log('request: ', myInit)}
+		if (globs.ENV === 'test') {console.log('to: ', address)}
 
 		fetch(address, myInit)
 		.then(response => response.json())
 		.then(data => {
 			if (data.access_token) localStorage.setItem('access_token', data.access_token);
-			ReactDOM.render(<Event val={data.error} />, document.getElementById("notice"));
+			if (data.error) ReactDOM.render(<Event val={data.error} />, document.getElementById("notice"));
 
-			console.log('response: ', data)
+			if (globs.ENV === 'test') {console.log('response: ', data)}
 
 		  this.refreshTasks();
 		})
@@ -59,7 +61,6 @@ class Buttons extends Component {
 	hideModal = () => {
 		if (!document.getElementById("modal").hidden) {
 			let elem = document.getElementById("modal");
-			// Выкидывает ошибку при сейве: утечка памяти. Надо исправить.
 			if (elem.firstChild) ReactDOM.unmountComponentAtNode(elem.firstChild);
 			elem.innerHTML = ''; 
 			elem.hidden	= true;
@@ -88,6 +89,11 @@ class Buttons extends Component {
 	deleteTask = (params) => {
 		this.ajaxTo(routes.taskDelete + params, {}, 'DELETE');
 		this.hideModal();
+	}
+
+	signUp = (body) => {		
+		body.grant_type = 'password';
+		this.ajaxTo(routes.userCreatePOST, body, 'POST');
 	}
 
 	getButton = (type, params) => {
@@ -127,7 +133,7 @@ class Buttons extends Component {
 				)
 			case 'signUp':
 				return(
-					<Button onClick={() => console.log('coming soon')}>Sign up</Button>
+					<Button onClick={() => this.signUp(params)}>Sign up</Button>
 				)
 			case 'signIn':
 				return(
