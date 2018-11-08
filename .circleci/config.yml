@@ -32,6 +32,10 @@ jobs:
           bundle install --jobs=4 --retry=3 --path vendor/bundle
     - run: sudo apt install -y postgresql-client || true
 
+    - run:
+         name: install npm
+         command: npm install
+
     - save_cache:
         paths:
         - ./vendor/bundle
@@ -43,20 +47,16 @@ jobs:
 
     # run tests!
     - run:
-        name: run tests
+        name: Run rspec
         command: |
           mkdir /tmp/test-results
           TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
           bundle exec rspec
 
     - run:
-        name: Unit tests with coverage
+        name: Run Jest tests with coverage
         command: |
-        ./cc-test-reporter before-build
-        npm run cov
-        ./cc-test-reporter after-build --exit-code $?
-        environment:
-        JEST_JUNIT_OUTPUT: "coverage/junit/js-test-results.xml"
+          npm run cov2
 
     # collect reports
     # heh
