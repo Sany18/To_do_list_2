@@ -7,6 +7,8 @@ import Registration from './components/registration';
 import { ButtonGroup } from 'react-bootstrap';
 import './index.css';
 import globs from './config/global-variables';
+import {NotificationContainer} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 class Main extends Component {
 	state = {
@@ -28,7 +30,8 @@ class Main extends Component {
 	render() {
 		if (this.state.token) {
 			return (
-				<div className="mb-2 ml-2">
+				<div className="mb-2 ml-2">				
+				<NotificationContainer/>
 					<h1 id='site_name'>Task list</h1> <Clock />
 					<div className="mb-2">
 						<ButtonGroup>
@@ -43,6 +46,7 @@ class Main extends Component {
 		} else {
 			return(
 				<div>
+				<NotificationContainer/>
 					<h1 id='site_name'>Task list</h1> <Clock />
 					<div className='row p-2'>
 						<div className="col-5">

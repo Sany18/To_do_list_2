@@ -4,7 +4,7 @@ import Task from '../components/task-form';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import Event from '../components/event';
+import {NotificationManager} from 'react-notifications';
 
 class Buttons extends Component {
 	state = {
@@ -26,7 +26,7 @@ class Buttons extends Component {
 		.then(response => response.json())
 		.then(data => {
 			if (data.access_token) localStorage.setItem('access_token', data.access_token);
-			if (data.error) ReactDOM.render(<Event val={data.error} />, document.getElementById("notice"));
+			if (data.error) NotificationManager.info(data.error, '', 3000);
 
 			if (globs.ENV === 'test') {console.log('response: ', data)}
 
@@ -87,13 +87,25 @@ class Buttons extends Component {
 	}
 
 	deleteTask = (params) => {
-		this.ajaxTo(routes.taskDelete + params, {}, 'DELETE');
-		this.hideModal();
+		let bool = window.confirm("Delete this task?");
+		if (bool) {
+			this.ajaxTo(routes.taskDelete + params, {}, 'DELETE');			
+			this.hideModal();
+		}
 	}
 
 	signUp = (body) => {		
 		body.grant_type = 'password';
 		this.ajaxTo(routes.userCreatePOST, body, 'POST');
+	}
+
+	logOut = () => {
+		NotificationManager.success('Log out sucesfuly', '', 3000);
+		localStorage.removeItem('access_token');
+	}
+
+	deleteTasks = (addr) => {	
+		NotificationManager.success(addr, 'Coming soon', 3000);
 	}
 
 	getButton = (type, params) => {
@@ -108,7 +120,7 @@ class Buttons extends Component {
 				)
 			case 'deleteTasks':
 				return(
-					<Button onClick={() => console.log(routes.deleteSelected + params)}>Delete selected</Button>
+					<Button onClick={() => this.deleteTasks(routes.deleteSelected + params)}>Delete selected</Button>
 				)
 			case 'editTask':
 				return(
@@ -141,10 +153,10 @@ class Buttons extends Component {
 				)
 			case 'logOut':
 				return(
-					<Button onClick={() => localStorage.removeItem('access_token')}>Log out</Button>
+					<Button onClick={() => this.logOut()}>Log out</Button>
 				)
 			default:
-				document.getElementById('notice').innerHTML = 'Button is undefined'
+				NotificationManager.warning('Button is undefined', '', 3000);
 				return(null)
 		}
 	}

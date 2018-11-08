@@ -3,6 +3,7 @@ import routes from '../config/routes-helper';
 import globs from '../config/global-variables';
 import Buttons from './buttons';
 import { ButtonGroup } from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
 
 class Article extends Component {
 	state = {
@@ -80,7 +81,7 @@ class Article extends Component {
 			)
 		}
 		if (this.state.error) {
-			document.getElementById('notice').innerHTML = this.state.error.toString()
+			NotificationManager.info(this.state.error.toString(), '', 3000);
 			return(null)
 		} else {
 			return(

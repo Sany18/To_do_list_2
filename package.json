@@ -10,6 +10,7 @@
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
+    "react-notifications": "^1.4.3",
     "react-scripts": "^2.1.1"
   },
   "babel": {
@@ -35,7 +36,9 @@
     "not op_mini all"
   ],
   "jest": {
-    "roots": ["<rootDir>/__tests__/"],
+    "roots": [
+      "<rootDir>/__tests__/"
+    ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
@@ -54,7 +57,9 @@
       "<rootDir>/jest-setup.js"
     ],
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.js"]
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   },
   "devDependencies": {
     "acorn": "^6.0.3",
