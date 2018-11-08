@@ -94,7 +94,7 @@ class Buttons extends Component {
 		}
 	}
 
-	signUp = (body) => {		
+	signUp = (body) => {
 		body.grant_type = 'password';
 		this.ajaxTo(routes.userCreatePOST, body, 'POST');
 	}

@@ -3,7 +3,7 @@ import routes from '../config/routes-helper';
 import globs from '../config/global-variables';
 import Buttons from './buttons';
 import { ButtonGroup } from 'react-bootstrap';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 class Article extends Component {
 	state = {
@@ -31,7 +31,7 @@ class Article extends Component {
 		let myInit = 'access_token=' + localStorage.getItem('access_token')
 		fetch(routes.tasksGet + '?' + myInit)
 		.then(response => response.json())
-		.then(data => this.setState({tasks: data, isLoading: true}))
+		.then(data => this.setState({tasks: data, isLoading: true, error: data.error}))
     .catch(error => this.setState({ error }))
 	}
 
@@ -51,7 +51,7 @@ class Article extends Component {
 	}
 
 	render() {
-		if (this.state.isLoading && this.state.tasks.length) {
+		if (this.state.isLoading && !this.state.error && this.state.tasks.length) {
 			return(
 				<div id='tasks'>
 				{this.state.tasks.map((task, i) =>
@@ -72,15 +72,15 @@ class Article extends Component {
 					</ul>
 				)}</div>
 			)
-		} 
-		if (this.state.isLoading && !this.state.tasks.length) {
+		}
+		if (this.state.isLoading && !this.state.tasks.length && !this.state.error) {
 			return(
 				<div>
 					<p>Creare you first task</p>
 				</div>
 			)
 		}
-		if (this.state.error) {
+		if (this.state.isLoading && this.state.error) {
 			NotificationManager.info(this.state.error.toString(), '', 3000);
 			return(null)
 		} else {

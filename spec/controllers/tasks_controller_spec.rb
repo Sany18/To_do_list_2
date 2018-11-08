@@ -17,7 +17,6 @@ RSpec.describe TasksController, type: :controller do
 
     before do
       get :index
-      # get :index, params: {"access_token" => access_token}
     end
     it { expect(assigns(:tasks).last).to eq(user_task) }
     it { expect(assigns(:tasks).first).to eq(user_task) }

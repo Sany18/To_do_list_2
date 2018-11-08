@@ -9,6 +9,7 @@ import './index.css';
 import globs from './config/global-variables';
 import {NotificationContainer} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Main extends Component {
 	state = {

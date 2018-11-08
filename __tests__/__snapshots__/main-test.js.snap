@@ -23,10 +23,10 @@ exports[`Main after sign in buttons New task pop-up "New task" -> click on shoul
         Due date
       </label>
       <input
-        min="2018-10-08"
+        min="2018-10-09"
         name="due_date"
         type="date"
-        value="2018-10-08"
+        value="2018-10-09"
       />
       <div
         class="btn-group"

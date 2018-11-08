@@ -17,7 +17,8 @@ class UsersController < ApplicationController
 		end
 
 		if @user.save
-			render json: { 'error' => 'Successful registration' }.to_json
+			UserMailer.with(user: @user).welcome_email.deliver_later
+			render json: { 'error' => 'You have been sent a letter. Confirm email' }.to_json
 		else
 			render json: { 'error' => 'Not registrated. Check the data' }.to_json
 		end
