@@ -1,15 +1,14 @@
+# frozen_string_literal: true
+
 class DkTokensController < Doorkeeper::TokensController
   # Overriding create action
   # POST /oauth/token
   def create
-    if authorize_response.respond_to?(:token)
-      current_user = User.find(authorize_response.token.resource_owner_id)
-    else
-      current_user = nil
-    end
+    current_user = if authorize_response.respond_to?(:token)
+                     User.find(authorize_response.token.resource_owner_id)
+                   end
 
-    puts authorize_response.to_s
-    if current_user && current_user.confirmed_email?
+    if current_user&.confirmed_email?
       response = authorize_response
       headers.merge! response.headers
       self.response_body = response.body.to_json

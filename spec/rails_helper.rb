@@ -1,23 +1,24 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 require 'factory_bot'
 require 'bot_helper'
 require 'controllers/lui'
 
-
 ENV['RAILS_ENV'] ||= 'test'
 
-SimpleCov.start "rails" do
-  add_filter "app/channels/application_cable/channel.rb"
-  add_filter "app/channels/application_cable/connection.rb"
-  add_filter "app/jobs/application_job.rb"
-  add_filter "app/mailers/application_mailer.rb"
-  add_filter "app/controllers/user_controller.rb"
+SimpleCov.start 'rails' do
+  add_filter 'app/channels/application_cable/channel.rb'
+  add_filter 'app/channels/application_cable/connection.rb'
+  add_filter 'app/jobs/application_job.rb'
+  add_filter 'app/mailers/application_mailer.rb'
+  add_filter 'app/controllers/user_controller.rb'
 end
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 RspecImage.new
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConfirmationsController < ApplicationController
   def create
     token = params[:token].to_s
@@ -6,10 +8,9 @@ class ConfirmationsController < ApplicationController
     if @user.present?
       @user.mark_as_confirmed!
       @status = 'User confirmed successfully'
-      render :return_to_root
     else
-      @status = 'Invalid token' 
-      render :return_to_root
+      @status = 'Invalid token'
     end
+    render :return_to_root
   end
 end

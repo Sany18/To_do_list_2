@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 include Faker
 
-if Rails.env != "production"
+if Rails.env != 'production'
   User.create!(
     first_name: 'D',
     last_name: 'F',
-    email: "w@w",
-    password: "asdasd"
+    email: 'w@w',
+    password: 'asdasd'
   )
 
   16.times do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (needs plugins)
   orm :active_record
@@ -13,7 +15,7 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
-    
+
     # User.find_by(email: params[:email]) &.authenticate(params[:password]) || nil
     # Put your resource owner authentication logic here.
     # Example implementation:

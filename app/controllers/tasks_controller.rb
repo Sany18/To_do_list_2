@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class TasksController < ApplicationController
   before_action :doorkeeper_authorize!
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: %i[show edit update destroy]
 
   # GET /tasks
   def index
@@ -35,19 +37,18 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    if @task.destroy
-      render json: { 'error' => 'Task was deleted' }.to_json
-    end
+    render json: { 'error' => 'Task was deleted' }.to_json if @task.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = current_user.tasks.find_by(id: params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def task_params
-      params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_task
+    @task = current_user.tasks.find_by(id: params[:id])
   end
+
+  # Only allow a trusted parameter "white list" through.
+  def task_params
+    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?)
+  end
+end

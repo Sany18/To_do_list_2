@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
-  let!(:application) { Doorkeeper::Application.create!(name: "x2", redirect_uri: "https://localhost:3000") }
-  let(:user){ create :user }
-  let(:user_2){ create :user }
-  let!(:access_token) { Doorkeeper::AccessToken.create! application_id: application.id, resource_owner_id: user.id, scopes: "app" }
+  let!(:application) { Doorkeeper::Application.create!(name: 'x2', redirect_uri: 'https://localhost:3000') }
+  let(:user) { create :user }
+  let(:user_2) { create :user }
+  let!(:access_token) { Doorkeeper::AccessToken.create! application_id: application.id, resource_owner_id: user.id, scopes: 'app' }
 
   before(:each) do
     allow(controller).to receive(:doorkeeper_token) { access_token }
   end
 
   # GET /tasks
-  context "#index" do
+  context '#index' do
     let!(:user_task) { create(:task, user_id: user.id) }
     let!(:not_user_task) { create(:task, user_id: user_2.id) }
 
@@ -25,21 +27,21 @@ RSpec.describe TasksController, type: :controller do
   end
 
   # GET /task/:id
-  context "#show" do
-    let(:task) {create(:task, user_id: user.id)}
+  context '#show' do
+    let(:task) { create(:task, user_id: user.id) }
 
     before do
-      get :show, params: {id: task.id}
+      get :show, params: { id: task.id }
     end
 
-    it {expect(assigns(:task)).to eq(task)}
-    it {expect(response).to have_http_status(200)}
+    it { expect(assigns(:task)).to eq(task) }
+    it { expect(response).to have_http_status(200) }
   end
 
   # POST /task
-  context "#create" do
-    let(:current_task) {build(:task)}
-    let(:params) {{task: current_task.attributes}}
+  context '#create' do
+    let(:current_task) { build(:task) }
+    let(:params) { { task: current_task.attributes } }
 
     before do
       post :create, params: params
@@ -51,10 +53,10 @@ RSpec.describe TasksController, type: :controller do
   end
 
   # PATCH/PUT /task/:id
-  context "#update" do
-    let(:task_1) {create(:task, user_id: user.id)}
-    let(:task_2) {build(:task, user_id: user.id)}
-    let(:params) {{id: task_1.id, task: task_2.attributes}}
+  context '#update' do
+    let(:task_1) { create(:task, user_id: user.id) }
+    let(:task_2) { build(:task, user_id: user.id) }
+    let(:params) { { id: task_1.id, task: task_2.attributes } }
 
     before do
       put :update, params: params
@@ -66,11 +68,11 @@ RSpec.describe TasksController, type: :controller do
   end
 
   # DELETE /task/:id
-  context "#destroy" do
-    let(:task) {create(:task, user_id: user.id)}
+  context '#destroy' do
+    let(:task) { create(:task, user_id: user.id) }
 
     before do
-      delete :destroy, params: {id: task.id}
+      delete :destroy, params: { id: task.id }
     end
 
     it { expect(Task.find_by(id: task.id)).to be_nil }
