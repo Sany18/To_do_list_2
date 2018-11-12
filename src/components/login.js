@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Buttons from './buttons';
 import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 class Login extends Component {
 	constructor(props) {
@@ -36,7 +38,10 @@ class Login extends Component {
 							<ControlLabel>Password</ControlLabel>
 							<FormControl bsSize="small" name="password" type='password' placeholder="password" onChange={this.handleChange}/>
 						</FormGroup>
-						<Buttons type='signIn' params={this.state.value}/>
+						<ButtonGroup>
+							<Buttons type='signIn' params={this.state.value}/>
+							<Link to="/registration"><Button bsSize="small">Sign up</Button></Link>
+						</ButtonGroup>
 					</Form>
 				</div>
 			)

@@ -1,10 +1,10 @@
 import routes from '../config/routes-helper';
 import globs from '../config/global-variables';
 import Task from '../components/task-form';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 class Buttons extends Component {
 	state = {
@@ -104,8 +104,12 @@ class Buttons extends Component {
 		localStorage.removeItem('access_token');
 	}
 
-	deleteTasks = (addr) => {	
+	deleteTasks = (addr) => {
 		NotificationManager.success(addr, 'Coming soon', 3000);
+	}
+
+	done = (params) => {
+		this.ajaxTo(routes.statusSwitchPOST, {id: params}, 'POST');
 	}
 
 	getButton = (type, params) => {
@@ -149,11 +153,19 @@ class Buttons extends Component {
 				)
 			case 'signIn':
 				return(
-					<Button onClick={() => this.login(params)}>Sign in</Button>
+					<Button onClick={() => this.login(params)}>Login</Button>
 				)
 			case 'logOut':
 				return(
 					<Button onClick={() => this.logOut()}>Log out</Button>
+				)
+			case 'done':
+				return(
+					<Button onClick={() => this.done(params)}>Done</Button>
+				)
+			case 'notDone':
+				return(
+					<Button onClick={() => this.done(params)}>Not done</Button>
 				)
 			default:
 				NotificationManager.warning('Button is undefined', '', 3000);

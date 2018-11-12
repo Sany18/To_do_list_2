@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :tasks
   root 'tasks#index'
   delete '/tasks/delete_selected/:id' => 'custom#destroy_selected'
-  get '/tasks/status_switch/:id' => 'custom#status_switch'
+  post '/tasks/status_switch/' => 'custom#status_switch'
   post '/user/create/' => 'users#create'
   get 'confirmations/:token' => 'confirmations#create', as: 'confirmations'
 end

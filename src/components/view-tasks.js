@@ -50,13 +50,17 @@ class Article extends Component {
 		}
 	}
 
+	isDone = (i) => {
+		return( i ? 'list-group-item-success' : 'list-group-item-secondary' )
+	}
+
 	render() {
 		if (this.state.isLoading && !this.state.error && this.state.tasks.length) {
 			return(
 				<div id='tasks'>
 				{this.state.tasks.map((task, i) =>
 					<ul className="list-group task" key={i}>
-						<li className="list-group-item list-group-item-success mr-2">
+						<li className={"list-group-item mr-2 " + this.isDone(task['is_done?'])}>
 							<div className="float-left">
 								<b>{task.title}</b><br/>
 								{task.theme}
@@ -64,6 +68,10 @@ class Article extends Component {
 							<div className="text-right float-right">
 								<div className="d-inline">Due date: {this.cutDate(task.due_date)} </div>
 								<ButtonGroup>
+									{task['is_done?'] ? 
+										<Buttons type='notDone' params={task.id} /> :
+										<Buttons type='done' params={task.id} />
+									}
 									<Buttons type='editTask' params={i}/>
 									<Buttons type='deleteTask2' params={task.id}/>
 								</ButtonGroup>
