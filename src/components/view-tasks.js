@@ -6,13 +6,19 @@ import { ButtonGroup } from 'react-bootstrap';
 import { NotificationManager } from 'react-notifications';
 
 class Article extends Component {
-	state = {
-		isLoading: false,
-		error: null,
-		isOpen: false,
-		tasks: [],
-		taps: 0
-	}
+	constructor(props) {
+		super(props);
+		this.state = {
+			isLoading: false,
+			error: null,
+			isOpen: false,
+			tasks: [],
+			taps: 0,
+			selected: []
+		}
+
+		this.handleInputChange = this.handleInputChange.bind(this);
+	};
 
 	componentDidUpdate() {
 		if (this.state.taps !== +localStorage.getItem('taps')) {
@@ -25,6 +31,26 @@ class Article extends Component {
 	componentDidMount() {
 		this.getTasks();
 		this.setState({taps: +localStorage.getItem('taps')})
+	}
+
+	handleInputChange(event) {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
+
+		let x = this.state.selected
+		if (value) {		
+			let cur = true;
+			for (let i = 0; i < x.length; i++) {
+				if (x[i] == name) {cur = false}
+			}		
+			if (cur) {x.push(name); this.setState({selected: x})}
+		} else if (!value) {
+			for (let i = 0; i < x.length; i++) {
+				if (x[i] == name) {delete x[i]; this.setState({selected: x.filter(Boolean)})}
+			}
+		}
+		localStorage.setItem('deleteTasks', this.state.selected.join('&'))
 	}
 
 	getTasks = () => {
@@ -62,6 +88,7 @@ class Article extends Component {
 					<ul className="list-group task" key={i}>
 						<li className={"list-group-item mr-2 " + this.isDone(task['is_done?'])}>
 							<div className="float-left">
+								<input name={task.id} type="checkbox" onChange={this.handleInputChange} />
 								<b>{task.title}</b><br/>
 								{task.theme}
 							</div>

@@ -5,11 +5,12 @@ class CustomController < ApplicationController
 
   # DELETE /task/delete_selected/:id
   def destroy_selected
-    if current_user.tasks.where(id: params[:id].split('&')).destroy_all
-      render json: { 'error' => 'Tasks was deleted' }.to_json
-    else
-      render json: { 'error' => 'Error' }.to_json
-    end
+    render json: { 'error' => params[:id] }.to_json
+    # if current_user.tasks.where(id: params[:id].split('&')).destroy_all
+    #   render json: { 'error' => 'Tasks was deleted' }.to_json
+    # else
+    #   render json: { 'error' => 'Error' }.to_json
+    # end
   end
 
   # GET /task/status_switch/:id

@@ -78,6 +78,7 @@ class Buttons extends Component {
 	}
 
 	login = (body) => {
+		localStorage.removeItem('deleteTasks');
 		body.grant_type = 'password';
 		this.ajaxTo(routes.oauthTokenPOST, body, 'POST');
 	}
@@ -101,11 +102,12 @@ class Buttons extends Component {
 
 	logOut = () => {
 		NotificationManager.success('Log out sucesfuly', '', 3000);
-		localStorage.removeItem('access_token');
+		localStorage.clear();
 	}
 
-	deleteTasks = (addr) => {
-		NotificationManager.success(addr, 'Coming soon', 3000);
+	deleteTasks = () => {
+		let tasks = localStorage.getItem('deleteTasks');
+		this.ajaxTo(routes.deleteSelected, {id: tasks}, 'DELETE');
 	}
 
 	done = (params) => {
@@ -124,7 +126,7 @@ class Buttons extends Component {
 				)
 			case 'deleteTasks':
 				return(
-					<Button onClick={() => this.deleteTasks(routes.deleteSelected + params)}>Delete selected</Button>
+					<Button onClick={() => this.deleteTasks()}>Delete selected</Button>
 				)
 			case 'editTask':
 				return(
