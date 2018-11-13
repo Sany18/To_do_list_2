@@ -16,8 +16,8 @@ class Buttons extends Component {
 
 	ajaxTo = (address, body, method) => {
 		let myInit = { method: method,
-									 headers: { 'Content-Type': 'application/json' },
-									 body: this.getTokensBody(body) }
+								   headers: { 'Content-Type': 'application/json' },
+								   body: this.getTokensBody(body) }
 
 		if (globs.ENV === 'test') {console.log('request: ', myInit)}
 		if (globs.ENV === 'test') {console.log('to: ', address)}
@@ -107,7 +107,7 @@ class Buttons extends Component {
 
 	deleteTasks = () => {
 		let tasks = localStorage.getItem('deleteTasks');
-		this.ajaxTo(routes.deleteSelected, {id: tasks}, 'DELETE');
+		this.ajaxTo(routes.deleteSelected + tasks, {}, 'DELETE');
 	}
 
 	done = (params) => {

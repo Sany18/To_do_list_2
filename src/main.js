@@ -5,12 +5,12 @@ import Clock from './components/clock';
 import Login from './components/login';
 import Registration from './components/registration';
 import { ButtonGroup } from 'react-bootstrap';
-import './index.css';
 import globs from './config/global-variables';
 import {NotificationContainer} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import './index.css';
 
 class Main extends Component {
 	state = {

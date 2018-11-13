@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Buttons from './buttons';
 import { Form, FormGroup, ControlLabel, FormControl, Button, ButtonGroup } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-class signUp extends Component {
+class SignUp extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -67,4 +67,4 @@ class signUp extends Component {
 	}
 }
 
-export default signUp;
+export default SignUp;

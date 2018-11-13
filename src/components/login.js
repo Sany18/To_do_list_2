@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Buttons from './buttons';
 import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, ButtonGroup } from 'react-bootstrap';
 
 class Login extends Component {
@@ -40,7 +40,7 @@ class Login extends Component {
 						</FormGroup>
 						<ButtonGroup>
 							<Buttons type='signIn' params={this.state.value}/>
-							<Link to="/registration"><Button bsSize="small">Sign up</Button></Link>
+							<Link to="/registration"><Button bsSize="small">Sign up</Button></Link>	
 						</ButtonGroup>
 					</Form>
 				</div>

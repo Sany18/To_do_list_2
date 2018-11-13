@@ -25,7 +25,12 @@ class Article extends Component {
 			this.getTasks()
 			if (globs.ENV === 'test') {console.log('update!')}
 			this.setState({taps: +localStorage.getItem('taps')})
-		}
+
+			let checkboxes = document.getElementsByClassName('ch')
+			for (let i = 0; i < checkboxes.length; i++) {
+				checkboxes[i].checked = false
+			}	
+		}	
 	}
 
 	componentDidMount() {
@@ -42,12 +47,12 @@ class Article extends Component {
 		if (value) {		
 			let cur = true;
 			for (let i = 0; i < x.length; i++) {
-				if (x[i] == name) {cur = false}
+				if (x[i] === name) {cur = false}
 			}		
 			if (cur) {x.push(name); this.setState({selected: x})}
 		} else if (!value) {
 			for (let i = 0; i < x.length; i++) {
-				if (x[i] == name) {delete x[i]; this.setState({selected: x.filter(Boolean)})}
+				if (x[i] === name) {delete x[i]; this.setState({selected: x.filter(Boolean)})}
 			}
 		}
 		localStorage.setItem('deleteTasks', this.state.selected.join('&'))
@@ -88,7 +93,7 @@ class Article extends Component {
 					<ul className="list-group task" key={i}>
 						<li className={"list-group-item mr-2 " + this.isDone(task['is_done?'])}>
 							<div className="float-left">
-								<input name={task.id} type="checkbox" onChange={this.handleInputChange} />
+								<input name={task.id} type="checkbox" className="ch" onChange={this.handleInputChange} />
 								<b>{task.title}</b><br/>
 								{task.theme}
 							</div>
