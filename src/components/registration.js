@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Buttons from './buttons';
-import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl, Button, ButtonGroup } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
-class signUp extends Component {
+class SignUp extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,8 +51,11 @@ class signUp extends Component {
 						<FormGroup controlId="formInline2Name">
 							<ControlLabel>Last name</ControlLabel>
 							<FormControl bsSize="small" name="last_name" type='text' placeholder="last name" onChange={this.handleChange}/>
-						</FormGroup>			
-						<Buttons type='signUp' params={this.state.value}/>
+						</FormGroup>
+						<ButtonGroup>		
+							<Buttons type='signUp' params={this.state.value}/>
+							<Link to="/"><Button bsSize="small">Login</Button></Link>
+						</ButtonGroup>
 					</Form>
 				</div>
 			)
@@ -63,4 +67,4 @@ class signUp extends Component {
 	}
 }
 
-export default signUp;
+export default SignUp;

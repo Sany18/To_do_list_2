@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RspecImage
   def initialize
     puts "

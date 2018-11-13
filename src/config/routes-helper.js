@@ -8,8 +8,8 @@ let routes = {
 	taskUpdatePut: vars.API + '/tasks/',
 	taskUpdatePatch: vars.API + '/tasks/',
 	taskDelete: vars.API + '/tasks/',
-	deleteSelected: vars.API + '/task/delete_selected/',
-	statusSwitchGet: vars.API + '/task/status_switch/',
+	deleteSelected: vars.API + '/tasks/delete_selected/',
+	statusSwitchPOST: vars.API + '/tasks/status_switch/',
 	oauthTokenPOST: vars.API +  '/oauth/token/',
 	userCreatePOST: vars.API + '/user/create/'
 }

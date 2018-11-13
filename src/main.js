@@ -5,8 +5,12 @@ import Clock from './components/clock';
 import Login from './components/login';
 import Registration from './components/registration';
 import { ButtonGroup } from 'react-bootstrap';
-import './index.css';
 import globs from './config/global-variables';
+import {NotificationContainer} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import './index.css';
 
 class Main extends Component {
 	state = {
@@ -25,42 +29,53 @@ class Main extends Component {
 		this.setState({token: localStorage.access_token})
 	}
 
-	render() {
-		if (this.state.token) {
-			return (
-				<div className="mb-2 ml-2">
-					<h1 id='site_name'>Task list</h1> <Clock />
-					<div className="mb-2">
-						<ButtonGroup>
-							<Buttons type='createTask'/>
-							<Buttons type='deleteTasks'/>
-							<Buttons type='logOut'/>
-						</ButtonGroup>
-					</div>
-					<ViewTasks />
+	main = () => {
+		if (this.state.token) {				
+		return(
+			<div>
+				<div className="mb-2">
+					<ButtonGroup>
+						<Buttons type='createTask'/>
+						<Buttons type='deleteTasks'/>
+						<Buttons type='logOut'/>
+					</ButtonGroup>
 				</div>
-				)
+				<ViewTasks />
+			</div>
+			)
 		} else {
-			return(
-				<div>
-					<h1 id='site_name'>Task list</h1> <Clock />
-					<div className='row p-2'>
-						<div className="col-5">
-							<h3>Sing in</h3>
-							<Login />
-						</div>
-						<div className="col-2 my-auto display-4 text-center">
-							OR
-						</div>
-						<div className="col-5">
-							<h3>Registration</h3>
-							<Registration />
-						</div>
-					</div>
-				</div>
+		return(	
+			<div className="col-5">
+				<h3>Sing in</h3>
+				<Login />
+			</div>
 			)
 		}
+	}
+
+	registration = () => {
+		return(
+			<div className="col-5">
+				<h3>Registration</h3>
+				<Registration />
+			</div>
+		)
+	}
+
+	render() {
+		return(
+			<div className="col-12">
+				<NotificationContainer/>
+				<h1 id='site_name' className="mb-2 ml-2 mr-2">Task list</h1> <Clock />
+					<Router>
+						<div>
+							<Route exact path="/" component={this.main} />
+							<Route path="/registration" component={this.registration} />
+						</div>
+					</Router>
+			</div>
+		)
 	}		
 }
-
+ 
 export default Main;

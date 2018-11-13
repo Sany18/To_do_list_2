@@ -14,10 +14,6 @@ describe('Main before sign in', () => {
 	});
 
 	describe('buttons', () => {
-		it('"Sign in" button', () => {
-			let but0 = component.find('button').at(0).text()
-			expect(but0).toEqual('Sign in');
-		});
 		it('"Sign up" button', () => {
 			let but1 = component.find('button').at(1).text()
 			expect(but1).toEqual('Sign up');
@@ -26,7 +22,7 @@ describe('Main before sign in', () => {
 
 	describe('forms', () => {
 		it('have 7 inputs', () => {
-			expect(component.find('input').length).toEqual(7);
+			expect(component.find('input').length).toEqual(2);
 		});
 	});
 });

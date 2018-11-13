@@ -1,30 +1,34 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bcrypt'
-gem 'devise-jwt'
-gem 'rails', '~> 5.2.1'
-gem 'jbuilder', '~> 2.5'
-gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'figaro'
-gem 'faker'
-gem 'pg'
-gem 'rack-cors', require: 'rack/cors'
+gem 'devise-jwt'
 gem 'doorkeeper'
+gem 'faker'
+gem 'figaro'
+gem 'figaro'
+gem 'jbuilder', '~> 2.5'
+gem 'pg'
+gem 'puma', '~> 3.11'
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '~> 5.2.1'
+gem 'rubocop', require: false
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 3.8'
-  gem 'simplecov', require: false
-  gem 'rails-controller-testing'
-  gem 'shoulda-matchers'
-  gem 'pry'
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'pry'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 3.8'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
 end
 
 group :development do

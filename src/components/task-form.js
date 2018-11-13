@@ -24,6 +24,8 @@ class Task extends Component {
 	}
 
 	componentDidMount() {
+		this.setState({ value: { ...this.state.value, due_date: this.getDateNow()} });
+
 		if (this.emptyTaskKey()) {
 		let myInit = 'access_token=' + localStorage.getItem('access_token')
 		fetch(routes.tasksGet + '?' + myInit)

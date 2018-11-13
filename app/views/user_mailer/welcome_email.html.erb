@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>Hi <%= @user.first_name + ' (' + @user.email + ')' %>!</h2>
+    <br>
+    <br>
+    <p>
+      Thanks for registering! To confirm your registration click the link below.
+    </p>
+    <br>
+    <p>
+      <%= link_to 'Confirm registration', confirmations_url(@user.confirmation_token) %>
+    </p>
+  </body>
+</html>
