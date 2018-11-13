@@ -62,7 +62,10 @@ class Article extends Component {
 		let myInit = 'access_token=' + localStorage.getItem('access_token')
 		fetch(routes.tasksGet + '?' + myInit)
 		.then(response => response.json())
-		.then(data => this.setState({tasks: data, isLoading: true, error: data.error}))
+		.then(data => {
+			data.sort(this.sortFunction)
+			this.setState({tasks: data, isLoading: true, error: data.error})
+		})
     .catch(error => this.setState({ error }))
 	}
 
@@ -84,6 +87,13 @@ class Article extends Component {
 	isDone = (i) => {
 		return( i ? 'list-group-item-success' : 'list-group-item-secondary' )
 	}
+
+	sortFunction = (a) => {
+	  if(a['is_done?'] === false) return -1 
+	  if(a['is_done?'] === true) return 1
+	  return 0
+	}
+
 
 	render() {
 		if (this.state.isLoading && !this.state.error && this.state.tasks.length) {
