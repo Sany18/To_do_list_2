@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import routes from '../config/routes-helper';
-import globs from '../config/global-variables';
-import Buttons from './buttons';
-import { ButtonGroup } from 'react-bootstrap';
-import { NotificationManager } from 'react-notifications';
+import React, {Component} from 'react'
+import routes from '../config/routes-helper'
+import globs from '../config/global-variables'
+import Buttons from './buttons'
+import { ButtonGroup } from 'react-bootstrap'
+import { NotificationManager } from 'react-notifications'
 
 class Article extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoading: false,
       error: null,
@@ -17,17 +17,15 @@ class Article extends Component {
       taps: 0,
       selected: []
     }
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  };
+  }
 
   componentDidUpdate() {
     if (this.state.taps !== +localStorage.getItem('taps')) {
       this.setState({ doneTasks: [], notDoneTasks: [] })
       this.getTasks()
 
-      if (globs.ENV === 'test') {console.log('update!')}
-      this.setState({taps: +localStorage.getItem('taps')})
+      if (globs.ENV === 'test') console.log('update!')
+      this.setState({ taps: +localStorage.getItem('taps') })
 
       let checkboxes = document.getElementsByClassName('ch')
       for (let i = 0; i < checkboxes.length; i++) {
@@ -37,21 +35,19 @@ class Article extends Component {
   }
 
   componentDidMount() {
-    this.getTasks();
-    this.setState({taps: +localStorage.getItem('taps')})
+    this.getTasks()
+    this.setState({ taps: +localStorage.getItem('taps') })
   }
 
-  handleInputChange(event) {
-    let target = event.target;
-    let value = target.type === 'checkbox' ? target.checked : target.value;
-    let name = target.name;
+  handleInputChange = event => {
+    let target = event.target
+    let value = target.type === 'checkbox' ? target.checked : target.value
+    let name = target.name
     let x = this.state.selected
 
     if (value) {    
-      let cur = true;
-      for (let i = 0; i < x.length; i++) {
-        if (x[i] === name) {cur = false}
-      }    
+      let cur = true
+      for (let i = 0; i < x.length; i++) { if (x[i] === name) {cur = false} }    
       if (cur) {x.push(name); this.setState({selected: x})}
     } else if (!value) {
       for (let i = 0; i < x.length; i++) {
@@ -64,27 +60,25 @@ class Article extends Component {
   getTasks = () => {
     let myInit = 'access_token=' + localStorage.getItem('access_token')
     fetch(routes.tasksGet + '?' + myInit)
-    .then(response => response.json())
-    .then(data => {this.sortFunction(data)})
-    .catch(error => this.setState({ error }))
+      .then(response => response.json())
+      .then(data => this.sortFunction(data))
+      .catch(error => this.setState({ error }))
   }
 
   handleClick = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    this.setState({ isOpen: !this.state.isOpen })
   }
 
   cutDate = (d) => {
     if (!d) {
       return 'free'
     } else {
-    let date = d.substr(0,10)
-    return date
+      let date = d.substr(0, 10)
+      return date
     }
   }
 
-  sortFunction = (data) => {
+  sortFunction = data => {
     for (let key in data) {
       if(data[key]['is_done?'] === true) {
         this.state.doneTasks.push(data[key])
@@ -92,53 +86,53 @@ class Article extends Component {
         this.state.notDoneTasks.push(data[key])
       }
     }
-    this.setState({isLoading: true})
-  }
 
+    this.setState({ isLoading: true })
+  }
 
   render() {
     if (this.state.isLoading && !this.state.error 
     	  && (this.state.doneTasks.length || this.state.notDoneTasks.length)) {
       return(
         <div id='tasks'>
-          <div className="notDoneTasks">
+          <div className='notDoneTasks'>
           {this.state.notDoneTasks.map((task, i) =>
-            <ul className="list-group task" key={i}>
-              <li className="list-group-item mr-2 list-group-item-secondary">
-                <div className="float-left">
-                  <input name={task.id} type="checkbox" className="ch" onChange={this.handleInputChange} />
+            <ul className='list-group task' key={i}>
+              <li className='list-group-item mr-2 list-group-item-secondary'>
+                <div className='float-left'>
+                  <input name={task.id} type='checkbox' className='ch' onChange={this.handleInputChange} />
                   <b>{task.title}</b><br/>
                   {task.theme}
                 </div>
-                <div className="text-right float-right">
-                  <div className="d-inline">Due date: {this.cutDate(task.due_date)} </div>
+                <div className='text-right float-right'>
+                  <div className='d-inline'>Due date: {this.cutDate(task.due_date)} </div>
                   <ButtonGroup>
                     <Buttons type='done' params={task.id} />
-                    <Buttons type='editTask' params={i}/>
-                    <Buttons type='deleteTask2' params={task.id}/>
+                    <Buttons type='editTask' params={task} />
+                    <Buttons type='deleteTask2' params={task.id} />
                   </ButtonGroup>
                 </div>
               </li>
             </ul>
           )}</div>
 
-          <hr align="center" color="Red" />
+          <hr align='center' color='Red' />
 
-          <div className="doneTasks">
+          <div className='doneTasks'>
           {this.state.doneTasks.map((task, i) =>
-            <ul className="list-group task" key={i}>
-              <li className="list-group-item mr-2 list-group-item-success">
-                <div className="float-left">
-                  <input name={task.id} type="checkbox" className="ch" onChange={this.handleInputChange} />
+            <ul className='list-group task' key={i}>
+              <li className='list-group-item mr-2 list-group-item-success'>
+                <div className='float-left'>
+                  <input name={task.id} type='checkbox' className='ch' onChange={this.handleInputChange} />
                   <b>{task.title}</b><br/>
                   {task.theme}
                 </div>
-                <div className="text-right float-right">
-                  <div className="d-inline">Due date: {this.cutDate(task.due_date)} </div>
+                <div className='text-right float-right'>
+                  <div className='d-inline'>Due date: {this.cutDate(task.due_date)} </div>
                   <ButtonGroup>
                     <Buttons type='notDone' params={task.id} /> 
-                    <Buttons type='editTask' params={i}/>
-                    <Buttons type='deleteTask2' params={task.id}/>
+                    <Buttons type='editTask' params={task} />
+                    <Buttons type='deleteTask2' params={task.id} />
                   </ButtonGroup>
                 </div>
               </li>
@@ -156,7 +150,7 @@ class Article extends Component {
       )
     }
     if (this.state.isLoading && this.state.error) {
-      NotificationManager.info(this.state.error.toString(), '', 3000);
+      NotificationManager.info(this.state.error.toString(), '', 3000)
       return(null)
     } else {
       return(
@@ -168,4 +162,4 @@ class Article extends Component {
   }
 }
 
-export default Article;
+export default Article

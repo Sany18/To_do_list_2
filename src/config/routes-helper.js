@@ -14,4 +14,4 @@ let routes = {
 	userCreatePOST: vars.API + '/user/create/'
 }
 
-export default routes;
+export default routes

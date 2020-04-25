@@ -9,8 +9,6 @@ gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise-jwt'
 gem 'doorkeeper'
-gem 'faker'
-gem 'figaro'
 gem 'figaro'
 gem 'jbuilder', '~> 2.5'
 gem 'pg'
@@ -19,6 +17,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.1'
 gem 'rubocop', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

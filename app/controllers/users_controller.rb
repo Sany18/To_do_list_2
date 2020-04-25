@@ -19,8 +19,8 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-      UserMailer.with(user: @user).welcome_email.deliver_later
-      render json: { 'error' => 'You have been sent a letter. Confirm email' }.to_json
+      UserMailer.with(user: @user).welcome_email.deliver_now
+      render json: { 'message' => 'You have been sent a letter. Confirm email' }.to_json
     else
       render json: { 'error' => 'Not registrated. Check the data' }.to_json
     end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.find_by_email(params[:email])
     if @user.password == params[:password]
       give_token
-      render json: { 'error' => 'Hello #{current_user.first_name}' }.to_json
+      render json: { 'message' => 'Hello #{current_user.first_name}' }.to_json
     else
       redirect_to home_url
     end

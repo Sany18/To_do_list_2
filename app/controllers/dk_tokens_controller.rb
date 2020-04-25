@@ -14,9 +14,9 @@ class DkTokensController < Doorkeeper::TokensController
       self.response_body = response.body.to_json
       self.status = response.status
     elsif !current_user
-      render json: { 'error' => 'Not validated data' }.to_json
+      render json: { 'error' => 'User not found' }.to_json
     else
-      render json: { 'error' => 'Check your mailbox. Email not confirmed' }.to_json
+      render json: { 'message' => 'Check your mailbox. Email not confirmed' }.to_json
     end
   end
 end
