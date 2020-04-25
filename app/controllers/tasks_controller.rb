@@ -20,7 +20,7 @@ class TasksController < ApplicationController
     @task = current_user.tasks.new(task_params)
 
     if @task.save
-      render json: { 'error' => 'Task created' }.to_json
+      render json: { 'message' => 'Task created' }.to_json
     else
       render json: { 'error' => 'Unable to save!' }.to_json
     end
@@ -29,7 +29,7 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     if @task.update(task_params)
-      render json: { 'error' => 'Task updated' }.to_json
+      render json: { 'message' => 'Task updated' }.to_json
     else
       render json: { 'error' => 'Unable to update!' }.to_json
     end
@@ -37,7 +37,7 @@ class TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    render json: { 'error' => 'Task was deleted' }.to_json if @task.destroy
+    render json: { 'message' => 'Task was deleted' }.to_json if @task.destroy
   end
 
   private
@@ -49,6 +49,6 @@ class TasksController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def task_params
-    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?)
+    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?, :id)
   end
 end

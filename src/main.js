@@ -7,26 +7,21 @@ import Registration from './components/registration'
 import { ButtonGroup } from 'react-bootstrap'
 import globs from './config/global-variables'
 import { NotificationContainer } from 'react-notifications'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-notifications/lib/notifications.css'
 import './index.css'
 
 class Main extends Component {
   state = {
-    token: localStorage.access_token,
-    timer: '',
+    token: localStorage.access_token
   }
 
   componentDidMount() {
-    if (document.getElementById('modal')) {document.getElementById('modal').hidden = true}
-    var timer = setInterval(this.setToken, 500)
-    this.setState({ timer })
+    if (document.getElementById('modal')) document.getElementById('modal').hidden = true
     if (globs.ENV === 'test') console.log('Test environment')
-  }
 
-  setToken = () => {
-    this.setState({token: localStorage.access_token})
+    setInterval(_ => this.setState({ token: localStorage.access_token }), 500)
   }
 
   main = () => {
@@ -53,26 +48,24 @@ class Main extends Component {
     }
   }
 
-  registration = () => {
-    return(
-      <div className='col-5'>
-        <h3>Registration</h3>
-        <Registration />
-      </div>
-    )
-  }
+  registration = () => (
+    <div className='col-5'>
+      <h3>Registration</h3>
+      <Registration />
+    </div>
+  )
 
   render() {
     return(
       <div className='col-12'>
-        <NotificationContainer/>
+        <NotificationContainer />
         <h1 id='site_name' className='mb-2 ml-2 mr-2'>Task list</h1>
           <Clock />
           <Router>
-            <div>
+            <>
               <Route exact path='/' component={this.main} />
               <Route path='/registration' component={this.registration} />
-            </div>
+            </>
           </Router>
       </div>
     )

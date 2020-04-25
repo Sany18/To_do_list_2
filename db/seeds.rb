@@ -21,5 +21,6 @@ if Rails.env != 'production'
     )
     print '|'
   end
+
   puts "\nTasks created."
 end
