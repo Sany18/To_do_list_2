@@ -4,7 +4,7 @@ import Buttons from './components/buttons'
 import Clock from './components/clock'
 import Login from './components/login'
 import Registration from './components/registration'
-import { ButtonGroup } from 'react-bootstrap'
+import { ButtonGroup, Button } from 'react-bootstrap'
 import globs from './config/global-variables'
 import { NotificationContainer } from 'react-notifications'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -14,59 +14,83 @@ import './index.css'
 
 class Main extends Component {
   state = {
-    token: localStorage.access_token
+    token: localStorage.access_token,
+    userName: '',
+    userId: undefined
   }
 
   componentDidMount() {
+		localStorage.setItem('taps', 0)
     if (document.getElementById('modal')) document.getElementById('modal').hidden = true
     if (globs.ENV === 'test') console.log('Test environment')
 
-    setInterval(_ => this.setState({ token: localStorage.access_token }), 500)
+    setInterval(_ => {
+      let { token, userId } = this.state
+
+      if (localStorage.access_token !== token || localStorage.user_id != userId) {
+        this.setState({
+          token: localStorage.access_token,
+          userName: localStorage.user_name,
+          userId: +localStorage.user_id
+        })
+      }
+    }, 500)
   }
 
-  main = () => {
-    if (this.state.token) {
-      return(
-        <div>
-          <div className='mb-2'>
-            <ButtonGroup>
-              <Buttons type='createTask'/>
-              <Buttons type='deleteTasks'/>
-              <Buttons type='logOut'/>
-            </ButtonGroup>
-          </div>
-          <ViewTasks />
+  renderRoot = () => {
+    const { token, userName, userId } = this.state
+
+    return(
+      <div>
+        <div className='mb-2'>
+          <ButtonGroup bsSize='small'>
+            {token ? <Buttons type='createTask' /> : null}
+            {token
+              ? <Buttons type='logOut'/>
+              : <Button href='/login' className='text-body'>Login</Button>}
+          </ButtonGroup>
         </div>
-      )
-    } else {
-      return(  
-        <div className='col-5'>
-          <h3>Sing in</h3>
-          <Login />
-        </div>
-      )
-    }
+        <ViewTasks userName={userName} userId={userId} />
+      </div>
+    )
   }
 
-  registration = () => (
-    <div className='col-5'>
+  renderRegistration = () => (
+    <div className='forms'>
       <h3>Registration</h3>
       <Registration />
     </div>
   )
 
+  renderLogin = () => (
+    <div className='forms'>
+      <h3>Login</h3>
+      <Login />
+    </div>
+  )
+
   render() {
+    const { userName } = this.state
+    
     return(
-      <div className='col-12'>
+      <div className='content'>
         <NotificationContainer />
-        <h1 id='site_name' className='mb-2 ml-2 mr-2'>Board</h1>
+        <header>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button href='/' className='btn btn-outline-primary btn-lg'>Go to Board</Button>
+            <div className='user-name'>
+              {userName ? 'Hi, ' + userName : 'read only, guest'}
+            </div>
+          </div>
           <Clock />
-          <Router>
-            <>
-              <Route exact path='/' component={this.main} />
-              <Route path='/registration' component={this.registration} />
-            </>
-          </Router>
+        </header>
+        <Router>
+          <>
+            <Route exact path='/' component={this.renderRoot} />
+            <Route path='/registration' component={this.renderRegistration} />
+            <Route path='/login' component={this.renderLogin} />
+          </>
+        </Router>
       </div>
     )
   }

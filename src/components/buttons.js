@@ -8,12 +8,11 @@ import { NotificationManager } from 'react-notifications'
 
 class Buttons extends Component {
 	state = {
-		isLoading: false,
-		error: null
+		isLoading: false
 	}
 
-	fetchTo = (address, body, method) => {
-		let myInit = { method: method,
+	fetchTo = (address, body, method, callback) => {
+		let myInit = { method,
 								   headers: { 'Content-Type': 'application/json' },
 								   body: this.getTokensBody(body) }
 
@@ -26,16 +25,23 @@ class Buttons extends Component {
       .then(response => response.json())
       .then(data => {
         if (data.access_token) localStorage.setItem('access_token', data.access_token)
+        if (data.user_name) localStorage.setItem('user_name', data.user_name)
+				if (data.user_id) localStorage.setItem('user_id', data.user_id)
+
         if (data.error) NotificationManager.info(data.error, '', 3000)
         if (data.message) NotificationManager.success(data.message, '', 3000)
         if (globs.ENV === 'test') console.log('response: ', data)
 
-        this.refreshTasks()
+				this.refreshTasks()
+
+				if (!data.error && callback) {
+					setTimeout(() => callback(data), 500)
+				}
       })
-      .catch(error => this.setState({ error }))
+      .catch(error => NotificationManager.error(error + '', '', 3000))
 	}
 
-	getTokensBody = (body) => {
+	getTokensBody = body => {
 		if (body.grant_type === 'password') {
 			return JSON.stringify(body)
 		} else if (localStorage.getItem('access_token')) {
@@ -73,12 +79,6 @@ class Buttons extends Component {
 		this.hideModal()
 	}
 
-	login = body => {
-		localStorage.removeItem('deleteTasks')
-		body.grant_type = 'password'
-		this.fetchTo(routes.oauthTokenPOST, body, 'POST')
-	}
-
 	refreshTasks = () => {
 		localStorage.setItem('taps', +localStorage.getItem('taps') + 1)
 	}
@@ -89,6 +89,12 @@ class Buttons extends Component {
 			this.fetchTo(routes.taskDelete + params, {}, 'DELETE')			
 			this.hideModal()
 		}
+	}
+
+	login = body => {
+		localStorage.removeItem('deleteTasks')
+		body.grant_type = 'password'
+		this.fetchTo(routes.oauthTokenPOST, body, 'POST', () => window.location.replace('/'))
 	}
 
 	signUp = body => {
@@ -106,7 +112,7 @@ class Buttons extends Component {
 		this.fetchTo(routes.deleteSelected + tasks, {}, 'DELETE')
 	}
 
-	done = (params) => this.fetchTo(routes.statusSwitchPOST, { id: params }, 'POST')
+	done = id => this.fetchTo(routes.statusSwitchPOST, { id }, 'POST')
 
 	getButton = (type, params) => {
 		switch (type) {
@@ -114,15 +120,13 @@ class Buttons extends Component {
 				return <Button onClick={() => this.deleteTask(params)}>Delete Ad</Button>
 			case 'deleteTask2':
 				return <Button onClick={() => this.deleteTask(params)}>&#215;</Button>
-			case 'deleteTasks':
-				return <Button onClick={() => this.deleteTasks()}>Delete Ads</Button>
 			case 'editTask':
 				return <Button onClick={() => this.openTaskInModal(params)}>Edit</Button>
 			case 'createTask':
 			case 'newTask':
 				return <Button id='newTask' bsStyle='default' onClick={() => this.openTaskInModal()}>New Ad</Button>
 			case 'closeTask':
-				return <Button id='closeTask' onClick={() => this.hideModal()}>Close</Button>
+				return <Button id='closeTask' onClick={this.hideModal}>Close</Button>
 			case 'saveTask':
 				return <Button onClick={() => this.saveTask(params)}>Save</Button>
 			case 'updateTask':
@@ -132,7 +136,7 @@ class Buttons extends Component {
 			case 'signIn':
 				return <Button onClick={() => this.login(params)}>Login</Button>
 			case 'logOut':
-				return <Button onClick={() => this.logOut()}>Log out</Button>
+				return <Button onClick={this.logOut}>Log out</Button>
 			case 'done':
 				return <Button onClick={() => this.done(params)}>Unmark</Button>
 			case 'notDone':

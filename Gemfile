@@ -18,6 +18,8 @@ gem 'rails', '~> 5.2.1'
 gem 'rubocop', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'dotenv-rails'
+gem 'carrierwave-postgresql'
+gem 'carrierwave-base64'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

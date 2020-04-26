@@ -8,6 +8,29 @@ code {
   monospace;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  margin: .3cm 0;
+}
+
+.user-name {
+  margin-left: .5cm;
+  font-size: .7cm;
+}
+
+.content {
+  padding: 0 .7cm;
+}
+
+.forms {
+  max-width: 10cm;
+}
+
+#clock {
+  font-size: .5cm;
+}
+
 #modal {
   background: rgba(20, 50, 50, 0.97);
   color: #666871;
@@ -35,10 +58,6 @@ code {
 textarea {
   min-width: 400px;
   min-height: 75px;
-  }
-
-#clock {
-  text-align: right;
 }
 
 #site_name {

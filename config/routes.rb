@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   post '/tasks/status_switch/' => 'custom#status_switch'
   post '/user/create/' => 'users#create'
   get 'confirmations/:token' => 'confirmations#create', as: 'confirmations'
+
+  # react
+  get '*path' => 'custom#render_react_app'
 end

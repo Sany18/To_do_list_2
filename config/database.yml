@@ -8,10 +8,8 @@ development:
   encoding: unicode
   database: db/react
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
   username: sa
   host: localhost
-  port: 5432
   password: pass
 
 test:
@@ -19,19 +17,13 @@ test:
   encoding: unicode
   database: db/react
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
   username: sa
   host: localhost
-  port: 5432
   password: pass
 
 production:
   adapter: postgresql
   encoding: unicode
   database: db/react
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
-  username: sa
   host: localhost
-  port: 5432
-  password: pass
+  password: 

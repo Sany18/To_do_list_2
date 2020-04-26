@@ -23,6 +23,10 @@ class User < ApplicationRecord
     email_confirmed
   end
 
+  def full_name
+    first_name + ' ' + last_name
+  end
+
   private
 
   def set_token

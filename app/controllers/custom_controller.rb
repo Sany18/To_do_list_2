@@ -2,6 +2,11 @@
 
 class CustomController < ApplicationController
   before_action :doorkeeper_authorize!
+  skip_before_action :doorkeeper_authorize!, only: %i[render_react_app]
+
+  def render_react_app
+    render file: 'public/index.html'
+  end
 
   # DELETE /task/delete_selected/:id
   def destroy_selected

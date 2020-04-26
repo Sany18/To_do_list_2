@@ -9,10 +9,12 @@ class DkTokensController < Doorkeeper::TokensController
                    end
 
     if current_user&.confirmed_email?
-      response = authorize_response
-      headers.merge! response.headers
-      self.response_body = response.body.to_json
-      self.status = response.status
+      headers.merge! authorize_response.headers
+      response = authorize_response.body.as_json
+      response['user_name'] = current_user.full_name
+      response['user_id'] = current_user.id
+
+      render json: response, status: :ok
     elsif !current_user
       render json: { 'error' => 'User not found' }.to_json
     else

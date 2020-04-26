@@ -6,6 +6,11 @@ class UsersController < ApplicationController
       render json: { 'error' => 'Passwords do not match' }.to_json
       return
     end
+    if User.find_by(email: params[:email]) &&
+      !User.find_by(email: params[:email]).email_confirmed
+
+      User.where(email: params[:email]).delete_all
+    end
     if User.find_by(email: params[:email])
       render json: { 'error' => 'Email is already registered' }.to_json
       return

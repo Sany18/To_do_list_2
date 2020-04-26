@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Buttons from './buttons'
 import { ButtonGroup } from 'react-bootstrap'
+import { NotificationManager } from 'react-notifications'
 
 class Task extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Task extends Component {
       value: {
         title: '',
         theme: '',
+        image: '',
         priority: 0,
         due_date: this.getDateNow(),
         ...task
@@ -21,7 +23,16 @@ class Task extends Component {
 
 	handleChange = ({ target }) => {
 		this.setState({ value: { ...this.state.value, [target.name]: target.value } })
-	}
+  }
+  
+  loadFile = ({ target }) => {
+    const reader = new FileReader()
+    const file = target.files[0]
+
+    reader.readAsDataURL(file)
+    reader.onload = () => this.setState({ value: { ...this.state.value, image: reader.result } })
+    reader.onerror = error => NotificationManager.info(error, '', 3000)
+  }
 
   getDateNow = () => {
     let date = new Date()
@@ -32,14 +43,15 @@ class Task extends Component {
 
   render() {
     const task = this.props.task || this.state.value
-    console.log(task)
 
     return(
       <div>
         <label>Theme</label>
-        <input defaultValue={task.title} name='title' onChange={this.handleChange} /> 
+        <input defaultValue={task.title} name='title' onChange={this.handleChange} />
         <label>Task</label>
         <textarea defaultValue={task.theme} name='theme' onChange={this.handleChange} />
+        <label>Image (max 1mb)</label>
+        <input type='file' name='image' onChange={this.loadFile} />
         <label>Up to</label>
         <input type='date' defaultValue={task.due_date.substr(0, 10) || this.getDateNow()}
             min={this.getDateNow()} name='due_date' onChange={this.handleChange} />

@@ -4,9 +4,19 @@ class TasksController < ApplicationController
   before_action :doorkeeper_authorize!
   before_action :set_task, only: %i[show edit update destroy]
 
+  skip_before_action :doorkeeper_authorize!, only: %i[index]
+
   # GET /tasks
   def index
-    @tasks = current_user.tasks
+    @tasks = []
+
+    Task.all.order('tasks.created_at DESC').map do |task|
+      user_name = task.user_name
+      task = task.as_json
+      task['user_name'] = user_name
+      @tasks << task
+    end
+
     render json: @tasks
   end
 
@@ -49,6 +59,6 @@ class TasksController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def task_params
-    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?, :id)
+    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?, :id, :image)
   end
 end
