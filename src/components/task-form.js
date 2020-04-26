@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Buttons from './buttons'
 import { ButtonGroup } from 'react-bootstrap'
 
@@ -7,7 +7,7 @@ class Task extends Component {
     super(props)
 
     const { task } = props
-    
+
     this.state = {
       value: {
         title: '',
@@ -25,16 +25,14 @@ class Task extends Component {
 
   getDateNow = () => {
     let date = new Date()
-    return (cz(date.getFullYear()) + '-' + cz(date.getMonth()) + '-' + cz(date.getDate()))
+    const cz = i => i < 10 ? '0' + i : i
 
-    function cz(i) {
-      if (i === null) return 'x'
-      if (i<10) {return '0' + i} else return i
-    }
+    return (cz(date.getFullYear()) + '-' + cz(date.getMonth()) + '-' + cz(date.getDate()))
   }
 
   render() {
     const task = this.props.task || this.state.value
+    console.log(task)
 
     return(
       <div>
@@ -42,8 +40,8 @@ class Task extends Component {
         <input defaultValue={task.title} name='title' onChange={this.handleChange} /> 
         <label>Task</label>
         <textarea defaultValue={task.theme} name='theme' onChange={this.handleChange} />
-        <label>Due date</label>
-        <input type='date' defaultValue={task.due_date || this.getDateNow()}
+        <label>Up to</label>
+        <input type='date' defaultValue={task.due_date.substr(0, 10) || this.getDateNow()}
             min={this.getDateNow()} name='due_date' onChange={this.handleChange} />
         <ButtonGroup>
           {task.id ? <Buttons type='deleteTask' params={task.id} /> : ''}

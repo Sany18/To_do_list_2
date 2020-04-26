@@ -111,16 +111,16 @@ class Buttons extends Component {
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
-				return <Button onClick={() => this.deleteTask(params)}>Delete task</Button>
+				return <Button onClick={() => this.deleteTask(params)}>Delete Ad</Button>
 			case 'deleteTask2':
 				return <Button onClick={() => this.deleteTask(params)}>&#215;</Button>
 			case 'deleteTasks':
-				return <Button onClick={() => this.deleteTasks()}>Delete selected</Button>
+				return <Button onClick={() => this.deleteTasks()}>Delete Ads</Button>
 			case 'editTask':
 				return <Button onClick={() => this.openTaskInModal(params)}>Edit</Button>
 			case 'createTask':
 			case 'newTask':
-				return <Button id='newTask' bsStyle='default' onClick={() => this.openTaskInModal()}>New task</Button>
+				return <Button id='newTask' bsStyle='default' onClick={() => this.openTaskInModal()}>New Ad</Button>
 			case 'closeTask':
 				return <Button id='closeTask' onClick={() => this.hideModal()}>Close</Button>
 			case 'saveTask':
@@ -134,9 +134,9 @@ class Buttons extends Component {
 			case 'logOut':
 				return <Button onClick={() => this.logOut()}>Log out</Button>
 			case 'done':
-				return <Button onClick={() => this.done(params)}>Done</Button>
+				return <Button onClick={() => this.done(params)}>Unmark</Button>
 			case 'notDone':
-				return <Button onClick={() => this.done(params)}>Not done</Button>
+				return <Button onClick={() => this.done(params)}>Mark</Button>
 			default:
 				NotificationManager.warning('Button is undefined', '', 3000)
 				return null

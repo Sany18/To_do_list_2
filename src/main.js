@@ -59,7 +59,7 @@ class Main extends Component {
     return(
       <div className='col-12'>
         <NotificationContainer />
-        <h1 id='site_name' className='mb-2 ml-2 mr-2'>Task list</h1>
+        <h1 id='site_name' className='mb-2 ml-2 mr-2'>Board</h1>
           <Clock />
           <Router>
             <>

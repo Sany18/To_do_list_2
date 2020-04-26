@@ -30,8 +30,8 @@ class Article extends Component {
       let checkboxes = document.getElementsByClassName('ch')
       for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false
-      }  
-    }  
+      }
+    }
   }
 
   componentDidMount() {
@@ -51,7 +51,7 @@ class Article extends Component {
       if (cur) {x.push(name); this.setState({selected: x})}
     } else if (!value) {
       for (let i = 0; i < x.length; i++) {
-        if (x[i] === name) {delete x[i]; this.setState({selected: x.filter(Boolean)})}
+        if (x[i] === name) {delete x[i]; this.setState({ selected: x.filter(Boolean) })}
       }
     }
     localStorage.setItem('deleteTasks', this.state.selected.join('&'))
@@ -61,7 +61,7 @@ class Article extends Component {
     let myInit = 'access_token=' + localStorage.getItem('access_token')
     fetch(routes.tasksGet + '?' + myInit)
       .then(response => response.json())
-      .then(data => this.sortFunction(data))
+      .then(this.sortFunction)
       .catch(error => this.setState({ error }))
   }
 
@@ -95,17 +95,17 @@ class Article extends Component {
     	  && (this.state.doneTasks.length || this.state.notDoneTasks.length)) {
       return(
         <div id='tasks'>
-          <div className='notDoneTasks'>
-          {this.state.notDoneTasks.map((task, i) =>
+          <div className='doneTasks'>
+          {this.state.doneTasks.map((task, i) =>
             <ul className='list-group task' key={i}>
-              <li className='list-group-item mr-2 list-group-item-secondary'>
+              <li className='list-group-item mr-2 list-group-item-success'>
                 <div className='float-left'>
                   <input name={task.id} type='checkbox' className='ch' onChange={this.handleInputChange} />
                   <b>{task.title}</b><br/>
                   {task.theme}
                 </div>
                 <div className='text-right float-right'>
-                  <div className='d-inline'>Due date: {this.cutDate(task.due_date)} </div>
+                  <div className='d-inline'>Up to: {this.cutDate(task.due_date)} </div>
                   <ButtonGroup>
                     <Buttons type='done' params={task.id} />
                     <Buttons type='editTask' params={task} />
@@ -118,17 +118,17 @@ class Article extends Component {
 
           <hr align='center' color='Red' />
 
-          <div className='doneTasks'>
-          {this.state.doneTasks.map((task, i) =>
+          <div className='notDoneTasks'>
+          {this.state.notDoneTasks.map((task, i) =>
             <ul className='list-group task' key={i}>
-              <li className='list-group-item mr-2 list-group-item-success'>
+              <li className='list-group-item mr-2 list-group-item-secondary'>
                 <div className='float-left'>
                   <input name={task.id} type='checkbox' className='ch' onChange={this.handleInputChange} />
                   <b>{task.title}</b><br/>
                   {task.theme}
                 </div>
                 <div className='text-right float-right'>
-                  <div className='d-inline'>Due date: {this.cutDate(task.due_date)} </div>
+                  <div className='d-inline'>Up to: {this.cutDate(task.due_date)} </div>
                   <ButtonGroup>
                     <Buttons type='notDone' params={task.id} /> 
                     <Buttons type='editTask' params={task} />
