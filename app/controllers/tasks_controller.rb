@@ -2,7 +2,7 @@
 
 class TasksController < ApplicationController
   before_action :doorkeeper_authorize!
-  before_action :set_task, only: %i[show edit update destroy]
+  before_action :set_task, only: %i[show edit update destroy remuve_images]
 
   skip_before_action :doorkeeper_authorize!, only: %i[index]
 
@@ -10,11 +10,12 @@ class TasksController < ApplicationController
   def index
     @tasks = []
 
-    Task.all.order('tasks.created_at DESC').map do |task|
+    Task.includes(:images).order('tasks.created_at DESC').map do |task|
       user_name = task.user_name
-      task = task.as_json
-      task['user_name'] = user_name
-      @tasks << task
+      tmp_task = task.as_json
+      tmp_task['images'] = task.images.map{ |i| i.image } if task.images.present?
+      tmp_task['user_name'] = user_name
+      @tasks << tmp_task
     end
 
     render json: @tasks
@@ -50,6 +51,10 @@ class TasksController < ApplicationController
     render json: { 'message' => 'Task was deleted' }.to_json if @task.destroy
   end
 
+  def remuve_images
+    render json: { 'message' => 'Images was deleted' }.to_json if !@task.images.delete_all
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -59,6 +64,7 @@ class TasksController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def task_params
-    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?, :id, :image)
+    params.require(:task).permit(:title, :theme, :priority, :due_date, :is_done?,
+                                 :id, :image, images_attributes: [ :image ])
   end
 end

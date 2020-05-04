@@ -3,6 +3,16 @@ import routes from '../config/routes-helper'
 import Buttons from './buttons'
 import { ButtonGroup } from 'react-bootstrap'
 
+const imgStyles = {
+  width: '5cm',
+  height: '5cm',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  objectFit: 'scale-down'
+}
+
 class Article extends Component {
   constructor(props) {
     super(props)
@@ -56,10 +66,16 @@ class Article extends Component {
                   <b> {task.title}</b><br />
                   {task.theme}<br />
                   Author:<b> {task.user_name}</b><br />
-                  {task.image
-                    ? <img src={task.image} alt='img'
-                      style={{ maxWidth: '5cm', maxHeight: '5cm' }} />
-                    : null}
+                  <div className='row mt-2' style={{ marginLeft: '.05cm' }}>
+                    {task.images && task.images.length
+                      ? task.images.map((img, i) => <img key={'img' + i} src={img}
+                          alt='img' style={imgStyles} />)
+                      : task.image
+                        ? <img src={task.image} alt='img'
+                            style={imgStyles} />
+                        : null
+                    }
+                  </div>
                 </div>
                 <div className='text-right float-right'>
                   <div className='d-inline'>Up to: {this.cutDate(task.due_date)} </div>

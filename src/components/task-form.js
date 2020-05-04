@@ -13,7 +13,8 @@ class Task extends Component {
       value: {
         title: '',
         theme: '',
-        image: '',
+        image: '', // deprecated
+        images_attributes: [],
         priority: 0,
         due_date: this.getDateNow(),
         ...task
@@ -26,12 +27,15 @@ class Task extends Component {
   }
   
   loadFile = ({ target }) => {
-    const reader = new FileReader()
-    const file = target.files[0]
+    this.state.value.images_attributes = []
 
-    reader.readAsDataURL(file)
-    reader.onload = () => this.setState({ value: { ...this.state.value, image: reader.result } })
-    reader.onerror = error => NotificationManager.info(error, '', 3000)
+    Object.values(target.files).map(image => {
+      const reader = new FileReader()
+
+      reader.readAsDataURL(image)
+      reader.onload = () => this.state.value.images_attributes.push({ image: reader.result })
+      reader.onerror = error => NotificationManager.info(error, '', 3000)
+    })
   }
 
   getDateNow = () => {
@@ -51,7 +55,7 @@ class Task extends Component {
         <label>Task</label>
         <textarea defaultValue={task.theme} name='theme' onChange={this.handleChange} />
         <label>Image (max 1mb)</label>
-        <input type='file' name='image' onChange={this.loadFile} />
+        <input type='file' name='image' onChange={this.loadFile} multiple />
         <label>Up to</label>
         <input type='date' defaultValue={task.due_date.substr(0, 10) || this.getDateNow()}
             min={this.getDateNow()} name='due_date' onChange={this.handleChange} />
@@ -61,6 +65,7 @@ class Task extends Component {
           {+this.state.value.id
             ? <Buttons type='updateTask' params={this.state.value} />
             : <Buttons type='saveTask' params={this.state.value} />}
+          <Buttons type='remuveImagesFromTask' params={task.id} />
         </ButtonGroup>
       </div>
     )

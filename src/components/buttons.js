@@ -114,6 +114,8 @@ class Buttons extends Component {
 
 	done = id => this.fetchTo(routes.statusSwitchPOST, { id }, 'POST')
 
+	remuveImagesFromTask = id => this.fetchTo(routes.remuveImagesDELETE + id, {}, 'DELETE')
+
 	getButton = (type, params) => {
 		switch (type) {
 			case 'deleteTask':
@@ -141,6 +143,8 @@ class Buttons extends Component {
 				return <Button onClick={() => this.done(params)}>Unmark</Button>
 			case 'notDone':
 				return <Button onClick={() => this.done(params)}>Mark</Button>
+			case 'remuveImagesFromTask':
+				return <Button onClick={() => this.remuveImagesFromTask(params)}>Delete all images</Button>
 			default:
 				NotificationManager.warning('Button is undefined', '', 3000)
 				return null

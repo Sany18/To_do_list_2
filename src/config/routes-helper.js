@@ -11,7 +11,8 @@ let routes = {
 	deleteSelected: vars.API + '/tasks/delete_selected/',
 	statusSwitchPOST: vars.API + '/tasks/status_switch/',
 	oauthTokenPOST: vars.API +  '/oauth/token/',
-	userCreatePOST: vars.API + '/user/create/'
+	userCreatePOST: vars.API + '/user/create/',
+	remuveImagesDELETE: vars.API + '/tasks/remuve_images/'
 }
 
 export default routes
