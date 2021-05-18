@@ -12,7 +12,7 @@ gem 'doorkeeper'
 gem 'figaro'
 gem 'jbuilder', '~> 2.5'
 gem 'pg'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.2.1'
 gem 'rubocop', require: false
